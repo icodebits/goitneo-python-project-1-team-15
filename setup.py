@@ -7,5 +7,5 @@ setup(
     version="0.0.1",
     license="MIT",
     packages=find_namespace_packages(),
-    install_requires=["click"],
+    install_requires=["Click"],
 )
