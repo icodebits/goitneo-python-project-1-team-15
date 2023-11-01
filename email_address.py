@@ -79,9 +79,6 @@ class Record:
     def edit_email(self, old, new):
         self.emails = [new if str(i) == old else i for i in self.emails]
 
-    def edit_address(self, old, new):
-        self.address = [new if str(i) == old else i for i in self.address]
-
     def remove_phone(self, phone):
         for i in self.phones:
             if str(i) == phone:
