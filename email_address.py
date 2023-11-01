@@ -79,6 +79,9 @@ class Record:
     def edit_email(self, old, new):
         self.emails = [new if str(i) == old else i for i in self.emails]
 
+    def edit_address(self, old, new):
+        self.address = [new if str(i) == old else i for i in self.address]
+
     def remove_phone(self, phone):
         for i in self.phones:
             if str(i) == phone:
@@ -224,8 +227,7 @@ def add_birthday(args, book):
 @input_error
 def add_address(args, book):
     if len(args) < 2:
-        return "Please provide both a name and an address to add."
-    
+        return "Please enter a name and an address to add."
     name, address = args[0], ' '.join(args[1:])
     if name.lower() in book.data:
         record = book.data[name.lower()]
@@ -233,6 +235,46 @@ def add_address(args, book):
         return "Address added"
     else:
         return "No such username"
+    
+@input_error
+def change_address(args, book):
+    if len(args) < 2:
+        return "Please enter a name and a new address to change."
+    name, new_address = args[0], ' '.join(args[1:])
+    if name.lower() in book.data:
+        record = book.data[name.lower()]
+        record.address.value = new_address
+        return "Address updated."
+    else:
+        return "No such username"
+    
+@input_error
+def show_address(args, book):
+    if args:
+        name = args[0]
+        if name.lower() in book.data:
+            record = book.data[name.lower()]
+            return record.address.value
+        else:
+            return "No such username"
+    else:
+        raise ValueError(print("Wrong format, please enter the data in format: show-address <name>"))
+    
+@input_error
+def delete_address(args, book):
+    if args:
+        name = args[0]
+        if name.lower() in book.data:
+            record = book.data[name.lower()]
+            if record.address:
+                record.address = "-"
+                return "Address deleted"
+            else:
+                return "No address to delete"
+        else:
+            return "No such username"
+    else:
+        raise ValueError(print("Wrong format, please enter the data in format: delete-address <name>"))
 
 @input_error
 def show_birthday(args, book):
@@ -352,6 +394,12 @@ def main():
             print(name(args, book))
         elif command in ["add-address"]:
             print(add_address(args, book))
+        elif command in ["change-address"]:
+            print(change_address(args, book))
+        elif command in ["show-address"]:
+            print(show_address(args, book))
+        elif command in ["delete-address"]:
+            print(delete_address(args, book))
         else:
             print("Invalid command. Please verify the command and try again")
 
