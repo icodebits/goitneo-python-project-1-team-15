@@ -1,8 +1,21 @@
 from simple_term_menu import TerminalMenu
 import time
+from base.address_book import AddressBook
 
+def save_address_book(address_book, filename):
+    with open(filename, "wb") as file:
+        pickle.dump(address_book, file)
+
+def load_address_book(filename):
+    try:
+        with open(filename, "rb") as file:
+            address_book = pickle.load(file)
+            return address_book
+    except FileNotFoundError:
+        return AddressBook()
 
 def main():
+    address_book = load_address_book("book.pickle")
     main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
     main_menu_items = ["Contatcs", "Notes", "Quit"]
     main_menu_cursor = "> "
@@ -27,6 +40,10 @@ def main():
         "Show contacts",
         "Edit contact",
         "Remove contact",
+        "Add birthday",
+        "Search for birthday people",
+        "Edit birthday",
+        "Delete birthday",
     ]
     contacts_menu_back = False
     contacts_menu = TerminalMenu(
@@ -128,9 +145,8 @@ def main():
                     contacts_menu_back = True
                     print("Back selected")
             notes_menu_back = False
-        elif main_sel == 2 or main_sel == None:
-            main_menu_exit = True
-            print("Quit Selected")
+        elif main_sel == 2 or main_sel is None:
+            save_address_book(address_book, "book.pickle")
 
 
 if __name__ == "__main__":
