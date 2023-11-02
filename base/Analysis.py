@@ -62,11 +62,9 @@ def main():
 
 def handle_contacts_command(command):
     print(f"You selected: {command}")
-    # Додайте логіку для обробки команд для Contacts menu тут
 
 def handle_notes_command(command):
     print(f"You selected: {command}")
-    # Додайте логіку для обробки команд для Notes menu тут
 
 if __name__ == "__main__":
     main()

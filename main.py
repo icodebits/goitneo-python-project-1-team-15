@@ -131,7 +131,7 @@ def main():
             notes_menu_back = False
         elif main_sel == 2:
             print("Running the analysis from Analysis.py...")
-            found_commands = analysis_main()  # Отримуємо знайдені команди з Analysis.py
+            found_commands = analysis_main() 
             if found_commands:
                 if "Contacts" in main_menu_items:
                     smart_menu_items_contacts = [btn for btn in contacts_menu_items if any(keyword in btn for keyword in found_commands)]
