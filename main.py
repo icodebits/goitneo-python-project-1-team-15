@@ -45,14 +45,15 @@ def display_contacts(args, book):
 # | NOTES HANDLERS |
 # ==================
 def add_note(args, notes):
-    note_content = args[0]
+    note_content = " ".join(args)
     res = notes.add_note(note_content)
     print(res)
 
 
 def edit_note(args, notes):
-    position, text, *tags = args
-    res = notes.edit_note(int(position), text, tags=None)
+    position = args[0]
+    content = " ".join(args[1:])
+    res = notes.edit_note(int(position), content)
     print(f"\n {res}")
 
 
@@ -76,13 +77,14 @@ def display_notes(args, notes):
 
 
 def add_tags(args, notes):
-    note_idx, *tags = args
+    note_idx = int(args[0])
+    tags = args[1:]
     res = notes.add_tags(note_idx, tags)
     print(f"\n {res}")
 
 
 def search_notes_by_tag(args, notes):
-    search_tag = args[0]
+    search_tag = int(args[0])
     res = notes.search_notes_by_tag(search_tag)
     print(f"\nNotes that contain tag '{search_tag}':")
     for note in res:
@@ -121,13 +123,11 @@ def contacts_handler(operator):
 
 
 def notes_handler(operator):
-    """
-    написати перевірки для невалідних команд
-    """
-    if operator in NOTES_OPERATIONS.key():
+    if operator in NOTES_OPERATIONS.keys():
         return NOTES_OPERATIONS[operator]
     else:
-        return NOTES_OPERATIONS[operator]
+        # написати перевірки для невалідних команд
+        raise ValueError("Unsupported operation type")
 
 
 def main():
