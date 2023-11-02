@@ -22,6 +22,7 @@ class Notes:
     def add_note(self, text, tags=None):
         note = Note(text, tags)
         self.notes.append(note)
+        return f"Note added"
 
     def search_notes(self, keyword):
         keyword = keyword.lower()

@@ -47,20 +47,20 @@ def display_contacts(args, book):
 def add_note(args, notes):
     note_content = " ".join(args)
     res = notes.add_note(note_content)
-    print(res)
+    print(f"\n{res}\r\n")
 
 
 def edit_note(args, notes):
     position = args[0]
     content = " ".join(args[1:])
     res = notes.edit_note(int(position), content)
-    print(f"\n {res}")
+    print(f"\n{res}\r\n")
 
 
 def delete_note(args, notes):
     position = args[0]
     res = notes.delete_note(int(position))
-    print(f"\n {res}")
+    print(f"\n{res}\r\n")
 
 
 def search_notes(args, notes):
@@ -80,11 +80,11 @@ def add_tags(args, notes):
     note_idx = int(args[0])
     tags = args[1:]
     res = notes.add_tags(note_idx, tags)
-    print(f"\n {res}")
+    print(f"\n{res}\r\n")
 
 
 def search_notes_by_tag(args, notes):
-    search_tag = int(args[0])
+    search_tag = args[0]
     res = notes.search_notes_by_tag(search_tag)
     print(f"\nNotes that contain tag '{search_tag}':")
     for note in res:
@@ -172,7 +172,7 @@ def main():
             print(msg.notes_menu)
             time.sleep(0.6)  # wait 600ms after printing menu
             while not notes_menu_back:
-                user_input = input("Enter a command: ").strip().lower()
+                user_input = input("Enter a command: ").strip()
                 command, *args = parse_input(user_input)
 
                 if command == "back":
