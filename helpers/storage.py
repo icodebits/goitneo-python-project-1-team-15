@@ -3,7 +3,6 @@ import os, pickle
 from base.notes import Notes
 from base.address_book import AddressBook
 
-
 def load_data(filename):
     if os.path.exists(filename):
         with open(filename, "rb") as file:
