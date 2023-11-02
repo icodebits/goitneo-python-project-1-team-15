@@ -15,4 +15,4 @@ class Name(Field):
         if not is_string and is_empty and has_numbers:
             raise ValueError("Field name is incorrect")
 
-        self.__value = value
+        self.__value = value.lower()

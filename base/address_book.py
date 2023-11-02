@@ -11,6 +11,7 @@ class AddressBook(UserDict):
         self.data[contact.name.value] = contact
 
     def find(self, key: str) -> object:
+        key = key.lower()
         res = self.data.get(key)
         return res
 
@@ -157,15 +158,15 @@ john_record = Record("John")
 john_record.add_phone("1234567890")
 john_record.add_phone("5555555555")
 book.add_record(john_record)
-book.add_address("John", "Kyiv")
+book.add_address("john", "Kyiv")
 print(book.add_email("John", "hh@kk.co"))
-book.add_email("John", "ww@rr.co")
+# book.add_email("John", "ww@rr.co")
 
-book.edit_email("John","hh@kk.co", "pp@uiu.co")
-book.show_email("John")
-book.remove_email("John", "pp@uiu.co")
-for name, record in book.data.items():
-    print(record)
+# book.edit_email("John","hh@kk.co", "pp@uiu.co")
+# book.show_email("John")
+# book.remove_email("John", "pp@uiu.co")
+# for name, record in book.data.items():
+#     print(record)
 
 # print("The address is edited")
 # book.edit_address("John", "Lviv")
