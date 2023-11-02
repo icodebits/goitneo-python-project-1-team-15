@@ -141,6 +141,10 @@ def main():
 
     print(msg.welcome)
 
+    data = load_data("data.pkl")
+    book = data['contacts']
+    notes = data['notes']
+
     while not main_menu_exit:
         if notes_menu_back or contacts_menu_back:  # main menu
             notes_menu_back = contacts_menu_back = False
@@ -187,6 +191,10 @@ def main():
         else:
             print(Fore.RED + msg.error)
             print(Style.RESET_ALL)
+    
+    data['contacts'] = book
+    data['notes'] = notes
+    save_data(data, "data.pkl")
 
 
 if __name__ == "__main__":
