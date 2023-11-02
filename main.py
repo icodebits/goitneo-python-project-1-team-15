@@ -1,6 +1,7 @@
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
+from helpers.storage import load_data, save_data
 
 import templates.messages as msg
 import time  # add timeouts for output
