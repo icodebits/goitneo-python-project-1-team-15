@@ -2,9 +2,28 @@ welcome = """
 =============================
 | Welcome to assistant bot: |
 =============================
-Enter next command:
+Enter next command to start bot:
     Contacts
     Notes
+
+Enter [exit or close] to finish
+"""
+
+leave = """
+=========================
+| Tnx for using our bot |
+=========================
+"""
+
+main_menu = """
+==============
+| Main menu: |
+==============
+Enter command:
+    Contacts
+    Notes
+
+Enter [exit or close] to finish
 """
 
 
@@ -14,12 +33,13 @@ contacts_menu = """
 =============================
 Usage: COMMAND [ARGS]...
 Commands:
-    add        <contact> <tag_name>
-    show-all
-    search     <contact_keywords>
-    edit       <contact_name> <field> <old_val> <new_val>
-    delete     <tag_number> or <tag_name>
-    back
+    add        <name> or <name> <field> or <name> <field> <value>
+    search     <keywords>
+    edit       <name> <field> <old value> <new value>
+    delete     <name> or <name> <field>
+    show-all   # show all contacts
+
+    back       # back to prev menu
 """
 
 notes_menu = """
@@ -29,10 +49,15 @@ notes_menu = """
 Usage: COMMAND [ARGS]...
 Commands:
     add        <note> <tag_name>
-    show-all
-    sort
     search     <note_keywords>
-    edit       <note_number> <new_task> <new_tag>
+    edit       <note_number> <new_text> <new_tag>
     delete     <note_number>
-    back
+    sort       # sort notes by tag
+    show-all   # show all notes
+
+    back       # back to prev menu
 """
+
+back = "↵ Back selected"
+
+error = "🔴 Invalid command"
