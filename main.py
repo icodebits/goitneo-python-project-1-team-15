@@ -1,136 +1,174 @@
-from simple_term_menu import TerminalMenu
+from base.address_book import AddressBook
+from base.notes import Notes
+from helpers.cli_parser import parse_input
+
+import templates.messages as msg
 import time
+from colorama import just_fix_windows_console, Fore, Style
+
+just_fix_windows_console()  # execute for Windows OS compability
+
+
+# =====================
+# | CONTATCS HANDLERS |
+# =====================
+def add_contact(args, book):
+    name, *tags = args
+    # add method from book obj
+    print("\n🟢 Contact added\n")
+
+
+def search_contact(args, book):
+    search_query = args[0]
+    # search method from book obj
+    print("\n✅ Contact finded\n")
+
+
+def edit_contact(args, book):
+    name, field, old_value, new_value = args
+    # edit method from book obj
+    print("\n📒 Contact updated\n")
+
+
+def delete_contact(args, book):
+    position = args[0]
+    # delete method from book obj
+    print("\n❌ Contact deleted\n")
+
+
+def display_contacts(args, book):
+    # show_all method from book obj
+    print("\n📱 All contatcs\n")
+
+
+# ==================
+# | NOTES HANDLERS |
+# ==================
+def add_note(args, notes):
+    note_name, *tags = args
+    notes.add_note(note_name, tags)
+    print("Added")
+
+
+def search_notes_by_tag(args, notes):
+    search_tag = args[0]
+    search_tag_results = notes.search_notes_by_tag(search_tag)
+    print(f"\nNotes that contain tag '{search_tag}':")
+    for note in search_tag_results:
+        print(note)
+
+
+def edit_note(args, notes):
+    position, text, *tags = args
+    edit_result = notes.edit_note(int(position), text, tags=None)
+    print(f"\n {edit_result}")
+
+
+def delete_note(args, notes):
+    position = args[0]
+    delete_result = notes.delete_note(int(position))
+    print(f"\n {delete_result}")
+
+
+def sort_notes(args, notes):
+    sort_results = notes.sort_notes_by_tag()
+    print(f"\nSorted notes by tags:")
+    for note in sort_results:
+        print(note)
+
+
+def display_notes(args, notes):
+    notes.display_notes()
+
+
+CONTACTS_OPERATIONS = {
+    "add": add_contact,
+    "search": search_contact,
+    "edit": edit_contact,
+    "delete": delete_contact,
+    "show-all": display_contacts,
+}
+
+NOTES_OPERATIONS = {
+    "add": add_note,
+    "search": search_notes_by_tag,
+    "edit": edit_note,
+    "delete": delete_note,
+    "sort": sort_notes,
+    "show-all": display_notes,
+}
+
+
+def contacts_handler(operator):
+    return CONTACTS_OPERATIONS[operator]
+
+
+def notes_handler(operator):
+    """
+    написати перевірки для невалідних команд
+    """
+    if operator in NOTES_OPERATIONS.key():
+        return NOTES_OPERATIONS[operator]
+    else:
+        return NOTES_OPERATIONS[operator]
 
 
 def main():
-    main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
-    main_menu_items = ["Contatcs", "Notes", "Quit"]
-    main_menu_cursor = "> "
-    main_menu_cursor_style = ("fg_red", "bold")
-    main_menu_style = ("bg_red", "fg_yellow")
+    book = AddressBook()
+    notes = Notes()
+
     main_menu_exit = False
-
-    main_menu = TerminalMenu(
-        menu_entries=main_menu_items,
-        title=main_menu_title,
-        menu_cursor=main_menu_cursor,
-        menu_cursor_style=main_menu_cursor_style,
-        menu_highlight_style=main_menu_style,
-        cycle_cursor=True,
-        clear_screen=True,
-    )
-
-    contacts_menu_title = "  Contacts menu.\n  Press Q or Esc to back to main menu. \n"
-    contacts_menu_items = [
-        "Add contact",
-        "Show contact",
-        "Show contacts",
-        "Edit contact",
-        "Remove contact",
-    ]
     contacts_menu_back = False
-    contacts_menu = TerminalMenu(
-        menu_entries=contacts_menu_items,
-        title=contacts_menu_title,
-        menu_cursor=main_menu_cursor,
-        menu_cursor_style=main_menu_cursor_style,
-        menu_highlight_style=main_menu_style,
-        cycle_cursor=True,
-        clear_screen=True,
-    )
-
-    notes_menu_title = "  Nones menu.\n  Press Q or Esc to back to main menu. \n"
-    notes_menu_items = [
-        "Add note",
-        "Show note",
-        "Show notes",
-        "Edit note",
-        "Remove note",
-    ]
     notes_menu_back = False
-    notes_menu = TerminalMenu(
-        menu_entries=notes_menu_items,
-        title=notes_menu_title,
-        menu_cursor=main_menu_cursor,
-        menu_cursor_style=main_menu_cursor_style,
-        menu_highlight_style=main_menu_style,
-        cycle_cursor=True,
-        clear_screen=True,
-    )
+
+    print(msg.welcome)
 
     while not main_menu_exit:
-        # main_sel -> main selection
-        main_sel = main_menu.show()
+        if notes_menu_back or contacts_menu_back:  # main menu
+            notes_menu_back = contacts_menu_back = False
+            print(Fore.GREEN + msg.main_menu)  # set color to cli
+            print(Style.RESET_ALL)  # reset colors
+            time.sleep(1)  # wait 1000ms after printing menu
 
-        if main_sel == 0:
-            print("Welcome to CONTACTS menu")
-            time.sleep(2)
-            while not contacts_menu_back:
-                edit_sel = contacts_menu.show()
-                if edit_sel == 0:
-                    contact_name = input("Add contact name: ")
-                    print("name: ", contact_name)
-                    # Add your handler for add-name operation
-                    time.sleep(5)  # Wait 5 sec before return to menu
-                elif edit_sel == 1:
-                    contact_name = input("Show contact by name: ")
-                    print("name: ", contact_name)
-                    # Add your handler for show-name operation
-                    time.sleep(5)
-                elif edit_sel == 2:
-                    print("Show all contacts")
-                    # Add your handler for show-all operation
-                    time.sleep(5)
-                elif edit_sel == 3:
-                    contact_name = input("Edit contact by name: ")
-                    print("name: ", contact_name)
-                    # Add your handler for edit-name operation
-                    time.sleep(5)
-                elif edit_sel == 4:
-                    contact_name = input("Remove contact by name: ")
-                    print("name: ", contact_name)
-                    # Add your handler for remove-name operation
-                    time.sleep(5)
-                elif edit_sel == 5 or edit_sel == None:
-                    contacts_menu_back = True
-                    print("Back selected")
-            contacts_menu_back = False
-        elif main_sel == 1:
-            print("Welcome to NOTES menu")
-            time.sleep(2)
-            while not notes_menu_back:
-                edit_sel = notes_menu.show()
-                if edit_sel == 0:
-                    note = input("Add note")
-                    print("note: ", note)
-                    # Add your handler for add-note operation
-                    time.sleep(5)
-                elif edit_sel == 1:
-                    note_name = input("Show note")
-                    print("note: ", note_name)
-                    # Add your handler for show-note operation
-                    time.sleep(5)
-                elif edit_sel == 2:
-                    print("Show all notes")
-                    # Add your handler for show-all operation
-                    time.sleep(5)
-                elif edit_sel == 3:
-                    note = input("Edit note")
-                    print("note: ", note)
-                    # Add your handler for adit-note operation
-                    time.sleep(5)
-                elif edit_sel == 4:
-                    note = input("Remove note")
-                    print("note: ", note)
-                    # Add your handler for remove-note operation
-                    time.sleep(5)
-                elif edit_sel == 5 or edit_sel == None:
-                    contacts_menu_back = True
-                    print("Back selected")
-            notes_menu_back = False
-        elif main_sel == 2 or main_sel == None:
+        user_input = input("Enter a command: ").strip().lower()
+        command, *args = parse_input(user_input)
+
+        if command in ["close", "exit"]:  # exit from cli
+            print(msg.leave)
             main_menu_exit = True
-            print("Quit Selected")
+
+        elif command == "contacts":  # contacts menu
+            print(msg.contacts_menu)
+            time.sleep(0.6)  # wait 600ms after printing menu
+            while not contacts_menu_back:
+                user_input = input("Enter a command: ").strip().lower()
+                command, *args = parse_input(user_input)
+
+                if command == "back":
+                    contacts_menu_back = True
+                    print(Fore.YELLOW + msg.back)  # set color to cli
+                    print(Style.RESET_ALL)  # reset colors
+                    break
+                contacts_handler(command)(args, book)
+
+        elif command == "notes":  # notes menu
+            print(msg.notes_menu)
+            time.sleep(0.6)  # wait 600ms after printing menu
+            while not notes_menu_back:
+                user_input = input("Enter a command: ").strip().lower()
+                command, *args = parse_input(user_input)
+
+                if command == "back":
+                    notes_menu_back = True
+                    print(Fore.YELLOW + msg.back)  # set color to cli
+                    print(Style.RESET_ALL)  # reset colors
+                    break
+
+                notes_handler(command)(args, notes)
+
+        else:
+            print(Fore.RED + msg.error)
+            print(Style.RESET_ALL)
 
 
 if __name__ == "__main__":
