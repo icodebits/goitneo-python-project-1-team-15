@@ -53,7 +53,7 @@ Commands:
     delete       <note_number>
     show         <note_keyword>
     show-all     # show all notes
-    add-tags     <tag_names>
+    add-tags     <note_number> <tag_names>
     search-tags  <note_keywords>
     sort-tags    # sort notes by tag
 
