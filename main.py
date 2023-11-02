@@ -16,19 +16,17 @@ def save_data(data, filename):
 
 def main():
     main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
-    main_menu_items = ["Contatcs", "Notes", "Quit"]
+    main_menu_items = ["Contacts", "Notes", "Quit"]
     main_menu_cursor = "> "
     main_menu_cursor_style = ("fg_red", "bold")
     main_menu_style = ("bg_red", "fg_yellow")
     main_menu_exit = False
-    
+
     data_file = "address_book_data.pkl"
     address_book = load_data(data_file)
-    if "contacts" not in address_book:
-        address_book["contacts"] = {}
 
     if address_book is None:
-        address_book = {"contacts": [], "notes": []}
+        address_book = {"contacts": {}, "notes": []}
 
     main_menu = TerminalMenu(
         menu_entries=main_menu_items,
