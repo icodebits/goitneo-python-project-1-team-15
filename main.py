@@ -9,7 +9,6 @@ from colorama import just_fix_windows_console, Fore, Style  # add styles to cli 
 
 just_fix_windows_console()  # execute for Windows OS compability
 
-
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
@@ -118,18 +117,21 @@ NOTES_OPERATIONS = {
     "sort-tags": sort_notes_by_tag,
 }
 
+def handler_error(func):
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except KeyError:
+            return "Unsupported operation type"
+    return inner
 
+@handler_error
 def contacts_handler(operator):
     return CONTACTS_OPERATIONS[operator]
 
-
+@handler_error
 def notes_handler(operator):
-    if operator in NOTES_OPERATIONS.keys():
-        return NOTES_OPERATIONS[operator]
-    else:
-        # написати перевірки для невалідних команд
-        raise ValueError("Unsupported operation type")
-
+    return NOTES_OPERATIONS[operator]
 
 def main():
     book = AddressBook()
@@ -167,7 +169,12 @@ def main():
                     print(Fore.YELLOW + msg.back)  # set color to cli
                     print(Style.RESET_ALL)  # reset colors
                     break
-                contacts_handler(command)(args, book)
+                
+                try:
+                    contacts_handler(command)(args, book)
+                except TypeError:
+                    print(Fore.RED + msg.error)
+                    print(Style.RESET_ALL)
 
         elif command == "notes":  # notes menu
             print(msg.notes_menu)
@@ -182,7 +189,11 @@ def main():
                     print(Style.RESET_ALL)  # reset colors
                     break
 
-                notes_handler(command)(args, notes)
+                try:
+                    notes_handler(command)(args, notes)
+                except TypeError:
+                    print(Fore.RED + msg.error)
+                    print(Style.RESET_ALL)
 
         else:
             print(Fore.RED + msg.error)
