@@ -1,7 +1,9 @@
+from email import Email
 from name import Name
 from phone import Phone
 from birthday import Birthday
 from address import Address
+
 
 class Record:
     def __init__(self, name):
@@ -9,6 +11,7 @@ class Record:
         self.phones = []
         self.birthday = None
         self.address = None
+        self.emails = []
 
     def add_phone(self, phone_number):
         self.phones.append(Phone(phone_number))
@@ -50,11 +53,18 @@ class Record:
         else:
             self.address = Address(address)
 
+    def add_email(self, email):
+        self.emails.append(Email(email))
+
+    def edit_email(self, old, new):
+        self.emails = [new if str(i) == old else i for i in self.emails]
+
     def __str__(self):
         name = self.name.value.title()
         phones = "; ".join(p.value for p in self.phones)
         birthday = self.birthday if self.birthday else "empty"
         address = self.address if self.address else "empty"
+        email = "; ".join(str(p) for p in self.emails)
 
         return f"""
         📱 Contact info:
@@ -62,5 +72,6 @@ class Record:
             ● phones: {phones}
             ● birthday: {birthday}
             ● address: {address}
+            ● email: {email}
 
         """
