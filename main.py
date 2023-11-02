@@ -1,10 +1,11 @@
 from simple_term_menu import TerminalMenu
 import time
+from base.Analysis import main as analysis_main
 
 
 def main():
     main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
-    main_menu_items = ["Contatcs", "Notes", "Quit"]
+    main_menu_items = ["Contatcs", "Notes", "Smart terminal", "Quit"]
     main_menu_cursor = "> "
     main_menu_cursor_style = ("fg_red", "bold")
     main_menu_style = ("bg_red", "fg_yellow")
@@ -128,7 +129,40 @@ def main():
                     contacts_menu_back = True
                     print("Back selected")
             notes_menu_back = False
-        elif main_sel == 2 or main_sel == None:
+        elif main_sel == 2:
+            print("Running the analysis from Analysis.py...")
+            found_commands = analysis_main()  # Отримуємо знайдені команди з Analysis.py
+            if found_commands:
+                if "Contacts" in main_menu_items:
+                    smart_menu_items_contacts = [btn for btn in contacts_menu_items if any(keyword in btn for keyword in found_commands)]
+                    if smart_menu_items_contacts:
+                        smart_menu_contacts = TerminalMenu(
+                            menu_entries=smart_menu_items_contacts,
+                            title="Contacts menu",
+                            menu_cursor=main_menu_cursor,
+                            menu_cursor_style=main_menu_cursor_style,
+                            menu_highlight_style=main_menu_style,
+                            cycle_cursor=True,
+                            clear_screen=True,
+                        )
+                        selected_contacts = smart_menu_contacts.show()
+                if "Notes" in main_menu_items:
+                    smart_menu_items_notes = [btn for btn in notes_menu_items if any(keyword in btn for keyword in found_commands)]
+                    if smart_menu_items_notes:
+                        smart_menu_notes = TerminalMenu(
+                            menu_entries=smart_menu_items_notes,
+                            title="Notes menu",
+                            menu_cursor=main_menu_cursor,
+                            menu_cursor_style=main_menu_cursor_style,
+                            menu_highlight_style=main_menu_style,
+                            cycle_cursor=True,
+                            clear_screen=True,
+                        )
+                        selected_notes = smart_menu_notes.show()
+            else:
+                print("No matching commands found in Smart menu.")
+            time.sleep(2)
+        elif main_sel == 3 or main_sel == None:
             main_menu_exit = True
             print("Quit Selected")
 
