@@ -38,6 +38,11 @@ Commands:
     edit       <name> <field> <old value> <new value>
     delete     <name> or <name> <field>
     show-all   # show all contacts
+    add-birthday <name> <birthday> 
+    show-birthdays <days> 
+    remove-birthday <name> 
+    edit-birthday <name> <new_birthday> 
+
 
     back       # back to prev menu
 """
