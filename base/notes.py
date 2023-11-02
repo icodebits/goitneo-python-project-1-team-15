@@ -43,6 +43,11 @@ class Notes:
     def display_notes(self):
         for i, note in enumerate(self.notes):
             print(f"{i + 1}. {note}")
+
+    def add_tags(self, index, tags):
+        note = self.notes[index-1]
+        note.tags = tags if tags is not None else []
+        return f"Tags added"
     
     def search_notes_by_tag(self, tag):
         tag = tag.lower()
@@ -60,6 +65,12 @@ if __name__ == "__main__":
     my_notes.add_note("Plan a trip")
     my_notes.add_note("Call the doctor", ["health"])
     my_notes.add_note("Plan a visit to parents",["family", "parents"])
+
+    print("\nAll notes:")
+    my_notes.display_notes()
+
+    add_tags_result = my_notes.add_tags(2, ["trip"])
+    print(f"\n {add_tags_result}")
 
     print("\nAll notes:")
     my_notes.display_notes()
