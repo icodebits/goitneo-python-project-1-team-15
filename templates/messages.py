@@ -48,14 +48,16 @@ notes_menu = """
 ==========================
 Usage: COMMAND [ARGS]...
 Commands:
-    add        <note> <tag_name>
-    search     <note_keywords>
-    edit       <note_number> <new_text> <new_tag>
-    delete     <note_number>
-    sort       # sort notes by tag
-    show-all   # show all notes
+    add          <note>
+    edit         <note_number> <new_text>
+    delete       <note_number>
+    show         <note_keyword>
+    show-all     # show all notes
+    add-tags     <tag_names>
+    search-tags  <note_keywords>
+    sort-tags    # sort notes by tag
 
-    back       # back to prev menu
+    back         # back to prev menu
 """
 
 back = "↵ Back selected"

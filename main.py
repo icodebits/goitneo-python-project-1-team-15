@@ -3,14 +3,14 @@ from base.notes import Notes
 from helpers.cli_parser import parse_input
 
 import templates.messages as msg
-import time
-from colorama import just_fix_windows_console, Fore, Style
+import time  # add timeouts for output
+from colorama import just_fix_windows_console, Fore, Style  # add styles to cli output
 
 just_fix_windows_console()  # execute for Windows OS compability
 
 
 # =====================
-# | CONTATCS HANDLERS |
+# | CONTACTS HANDLERS |
 # =====================
 def add_contact(args, book):
     name, *tags = args
@@ -45,40 +45,55 @@ def display_contacts(args, book):
 # | NOTES HANDLERS |
 # ==================
 def add_note(args, notes):
-    note_name, *tags = args
-    notes.add_note(note_name, tags)
-    print("Added")
-
-
-def search_notes_by_tag(args, notes):
-    search_tag = args[0]
-    search_tag_results = notes.search_notes_by_tag(search_tag)
-    print(f"\nNotes that contain tag '{search_tag}':")
-    for note in search_tag_results:
-        print(note)
+    note_content = args[0]
+    res = notes.add_note(note_content)
+    print(res)
 
 
 def edit_note(args, notes):
     position, text, *tags = args
-    edit_result = notes.edit_note(int(position), text, tags=None)
-    print(f"\n {edit_result}")
+    res = notes.edit_note(int(position), text, tags=None)
+    print(f"\n {res}")
 
 
 def delete_note(args, notes):
     position = args[0]
-    delete_result = notes.delete_note(int(position))
-    print(f"\n {delete_result}")
+    res = notes.delete_note(int(position))
+    print(f"\n {res}")
 
 
-def sort_notes(args, notes):
-    sort_results = notes.sort_notes_by_tag()
-    print(f"\nSorted notes by tags:")
-    for note in sort_results:
+def search_notes(args, notes):
+    keyword = args[0]
+    res = notes.search_notes(keyword)
+    print(f"\nNotes that contain '{keyword}' keyword:")
+    for note in res:
         print(note)
 
 
 def display_notes(args, notes):
+    print("\nAll notes:")
     notes.display_notes()
+
+
+def add_tags(args, notes):
+    note_idx, *tags = args
+    res = notes.add_tags(note_idx, tags)
+    print(f"\n {res}")
+
+
+def search_notes_by_tag(args, notes):
+    search_tag = args[0]
+    res = notes.search_notes_by_tag(search_tag)
+    print(f"\nNotes that contain tag '{search_tag}':")
+    for note in res:
+        print(note)
+
+
+def sort_notes_by_tag(args, notes):
+    res = notes.sort_notes_by_tag()
+    print(f"\nSorted notes by tags:")
+    for note in res:
+        print(note)
 
 
 CONTACTS_OPERATIONS = {
@@ -91,11 +106,13 @@ CONTACTS_OPERATIONS = {
 
 NOTES_OPERATIONS = {
     "add": add_note,
-    "search": search_notes_by_tag,
     "edit": edit_note,
     "delete": delete_note,
-    "sort": sort_notes,
+    "show": search_notes,
     "show-all": display_notes,
+    "add-tags": add_tags,
+    "search-tags": search_notes_by_tag,
+    "sort-tags": sort_notes_by_tag,
 }
 
 
