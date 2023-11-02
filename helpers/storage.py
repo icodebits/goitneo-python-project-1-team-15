@@ -1,7 +1,7 @@
 import os, pickle
 
 from base.notes import Notes
-from email_address import AddressBook
+from base.address_book import AddressBook
 
 
 def load_data(filename):
