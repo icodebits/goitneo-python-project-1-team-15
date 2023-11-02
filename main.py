@@ -1,6 +1,18 @@
 from simple_term_menu import TerminalMenu
 import time
+import pickle
+import os
 
+def load_data(filename):
+    if os.path.exists(filename):
+        with open(filename, 'rb') as file:
+            data = pickle.load(file)
+        return data
+    return None
+
+def save_data(data, filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(data, file)
 
 def main():
     main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
@@ -9,6 +21,14 @@ def main():
     main_menu_cursor_style = ("fg_red", "bold")
     main_menu_style = ("bg_red", "fg_yellow")
     main_menu_exit = False
+    
+    data_file = "address_book_data.pkl"
+    address_book = load_data(data_file)
+    if "contacts" not in address_book:
+        address_book["contacts"] = {}
+
+    if address_book is None:
+        address_book = {"contacts": [], "notes": []}
 
     main_menu = TerminalMenu(
         menu_entries=main_menu_items,
@@ -72,13 +92,21 @@ def main():
                     print("name: ", contact_name)
                     # Add your handler for add-name operation
                     time.sleep(5)  # Wait 5 sec before return to menu
-                elif edit_sel == 1:
-                    contact_name = input("Show contact by name: ")
-                    print("name: ", contact_name)
-                    # Add your handler for show-name operation
+                if edit_sel == 1:
+                    contact_name = input("Enter contact name to show: ")
+                    contact_data = address_book["contacts"].get(contact_name)
+                    if contact_data:
+                        print("Contact data:")
+                        print(contact_data)
+                    else:
+                        print(f"Contact '{contact_name}' not found.")
                     time.sleep(5)
-                elif edit_sel == 2:
+                if edit_sel == 2:
                     print("Show all contacts")
+                    for contact_name, contact_data in address_book["contacts"].items():
+                        print(contact_name)
+                        print("Contact data:", contact_data)
+                    time.sleep(5)
                     # Add your handler for show-all operation
                     time.sleep(5)
                 elif edit_sel == 3:
@@ -131,6 +159,7 @@ def main():
         elif main_sel == 2 or main_sel == None:
             main_menu_exit = True
             print("Quit Selected")
+    save_data(address_book, data_file)
 
 
 if __name__ == "__main__":
