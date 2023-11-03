@@ -33,16 +33,33 @@ contacts_menu = """
 =============================
 Usage: COMMAND [ARGS]...
 Commands:
-    add             <name> or <name> <field> or <name> <field> <value>
-    edit            <name> or <name> <field> or <name> <field> <value>
-    search          <keywords>
-    edit            <name> <field> <old value> <new value>
-    delete          <name> or <name> <field>
-    show-all        # show all contacts
-    add-birthday    <name> <birthday>
-    show-birthdays  <days>
-    remove-birthday <name>
-    edit-birthday   <name> <new_birthday>
+    add                <name>
+    edit               <name> <new_name>
+    delete             <name>
+    find               <name>
+    show-all           # show all contacts
+
+    add-phone          <name> <phone>
+    edit-phone         <name> <old_phone> <new_phone>
+    show-phone         <name>
+    delete-phone       <name> <phone>
+
+    add-address        <name> <address>
+    edit-address       <name> <old_address> <new_address>
+    show-address       <name>
+    delete-address     <name> <address>
+
+    add-email          <name> <email>
+    edit-email         <name> <old_email> <new_email>
+    show-email         <name>
+    delete-email       <name> <email>
+
+    add-birthday       <name> <birthday>
+    edit-birthday      <name> <old_birthday> <new_birthday>
+    show-birthday      <name>
+    delete-birthday    <name> <birthday>
+    next-birthdays     <days>
+
 
     back            # back to prev menu
 """

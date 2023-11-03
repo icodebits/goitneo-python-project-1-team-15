@@ -166,27 +166,28 @@ CONTACTS_OPERATIONS = {
     "add": add_record,
     "find": find_record,
     "delete": delete_record,
-    # Contacts
-    "add-contact": add_contact,
-    "edit-contact": edit_contact,
-    "show-contact": show_contact,
-    "delete-contact": delete_contact,
-    "show-contacts": display_contacts,
+    "show-all": display_contacts,
+    # Phone
+    "add-phone": add_phone,  # See to add_phone method
+    "edit-phone": edit_phone,
+    "show-phone": show_phone,  # ?
+    "delete-phone": delete_phone,
     # Address
     "add-address": add_address,
     "edit-address": edit_address,
-    "show-address": show_address,
+    "show-address": show_address,  # ?
     "delete-address": delete_address,
     # Email
     "add-email": add_email,
     "edit-email": edit_email,
-    "show-email": show_email,
+    "show-email": show_email,  # ?
     "delete-email": delete_email,
     # Birthday
     "add-birthday": add_birthday,
     "edit-birthday": edit_birthday,
-    "show-birthday": show_birthday,
+    "show-birthday": show_birthday,  # ?
     "delete-birthday": delete_birthday,
+    "next-birthdays": next_birthdays,
 }
 
 NOTES_OPERATIONS = {
