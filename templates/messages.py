@@ -44,7 +44,6 @@ Commands:
     remove-birthday <name>
     edit-birthday   <name> <new_birthday>
 
-
     back            # back to prev menu
 """
 

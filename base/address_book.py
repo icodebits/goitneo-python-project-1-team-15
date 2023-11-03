@@ -199,27 +199,66 @@ class AddressBook(UserDict):
         birthday_dict = defaultdict(list)
         birthdays_info = ""
 
-        for info in self.data.values():
-            name = info.name.value.title()
-            birthday = datetime.strptime(str(info.birthday), "%d %B %Y")
-            birthday = birthday.date()
-            birthday_this_year = birthday.replace(year=CURRENT_DATE.year)
-
-            if birthday_this_year < CURRENT_DATE:
-                birthday_this_year = birthday.replace(year=CURRENT_DATE.year + 1)
-
-            delta_days = (birthday_this_year - CURRENT_DATE).days
-
-            if delta_days < 7:
-                if birthday_this_year.weekday() >= 5:
-                    birthday_dict[WEEKDAYS[0]].append(name)
+    def edit_address(self, name: str, new_address: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                if new_address.strip():
+                    contact.address = new_address
+                    print(f"\n✅ Address updated for {name}\n")
                 else:
-                    birthday_dict[WEEKDAYS[birthday_this_year.weekday()]].append(name)
+                    print("❌ The address is incorrect")
+            else:
+                print("❌ No address to edit")
+        else:
+            print("❌ User not found")
 
-        for day, users_list in birthday_dict.items():
-            birthdays_info += f"{day}: {', '.join(list(users_list))}\n"
+    def show_address(self, name: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                print(f"\n✅ Address for {name}: {contact.address}")
+            else:
+                print(f"\n❌ Address not found for {name}")
+        else:
+            print("❌ User not found")
 
-        return birthdays_info
+    def remove_address(self, name: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                contact.address = None
+                print(f"\n✅ Address removed for {name}\n")
+            else:
+                print("❌ No address to remove")
+        else:
+            print("❌ User not found")
+
+    def add_email(self, name: str, email: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if email.strip():
+                contact.add_email(email)
+                print(f"\n✅ Email added for {name}\n")
+            else:
+                print("❌ Empty value, please provide an email")
+        else:
+            print("❌ User not found")
+
+    def edit_email(self, name: str, old_email: str, new_email: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if old_email in [str(i) for i in contact.emails]:
+                pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
+                if re.match(pattern, new_email):
+                    contact.edit_email(old_email, new_email)
+                    print(f"\n✅ Email updated for {name}\n")
+                else:
+                    print("❌ Wrong email format")
+            else:
+                print(f"❌ Email '{old_email}' not found for {name}")
+        else:
+            print("❌ User not found")
 
     def show_birthdays(self, args):
         if len(args) == 0:
