@@ -1,9 +1,10 @@
-from collections import UserDict, defaultdict
-from datetime import datetime, timedelta
 from base.record import Record
 from helpers.weekdays import WEEKDAYS, CURRENT_DATE
-import os
+
 import re
+from datetime import datetime, timedelta
+from collections import UserDict, defaultdict
+
 
 class AddressBook(UserDict):
     def add_record(self, contact: dict) -> None:
@@ -17,6 +18,49 @@ class AddressBook(UserDict):
     def delete(self, key: str) -> None:
         del self.data[key]
 
+    # Contacts methods
+    def add_contact(self, name: str, tags: list):
+        contact = Record(name)
+        self.add_record(contact)
+        print("\n🟢 Contact added\n")
+
+    def edit_contact(self, name, field, old_value, new_value):
+        contact = self.find(name)
+        if contact:
+            if field == "name":
+                contact.name.value = new_value
+            elif field == "phone":
+                contact.edit_phone(old_value, new_value)
+            else:
+                print(f"\n❌ Invalid field: {field}")
+                return
+            print("\n📒 Contact updated:")
+            print(contact)
+        else:
+            print(f"\n❌ Contact {name} not found\n")
+
+    def show_contact(self, search_query: str):
+        contact = self.find(search_query)
+        if contact:
+            print("\n✅ Contact found:")
+            print(contact)
+        else:
+            print(f"\n❌ Contact '{search_query}' not found\n")
+
+    def delete_contact(self, name):
+        contact = self.find(name)
+        if contact:
+            self.delete(name)
+            print(f"\n❌ Contact {name} deleted\n")
+        else:
+            print(f"\n❌ Contact {name} not found\n")
+
+    def display_contacts(self):
+        print("\n📱 All contacts:")
+        for contact in self.data.values():
+            print(contact)
+
+    # Address methods
     def add_address(self, name: str, address: str) -> None:
         contact = self.find(name)
         if contact:
@@ -25,7 +69,7 @@ class AddressBook(UserDict):
                 return "The address is added"
             else:
                 return "The address is incorrect"
-        else: 
+        else:
             return "User not found"
 
     def edit_address(self, name: str, new_address: str) -> None:
@@ -35,10 +79,10 @@ class AddressBook(UserDict):
                 if new_address.strip():
                     contact.address = new_address
                 else:
-                    return "The address is incorrect"       
+                    return "The address is incorrect"
             else:
                 return "No address to edit"
-        else: 
+        else:
             return "User not found"
 
     def show_address(self, name: str) -> None:
@@ -48,10 +92,10 @@ class AddressBook(UserDict):
                 return f"The address is: {contact.address}"
             else:
                 return "Address not found"
-        else: 
+        else:
             return "User not found"
 
-    def remove_address(self, name: str) -> None:
+    def delete_address(self, name: str) -> None:
         contact = self.find(name)
         if contact:
             if contact.address:
@@ -59,9 +103,10 @@ class AddressBook(UserDict):
                 return "Address removed"
             else:
                 return "No address to remove"
-        else: 
+        else:
             return "User not found"
-        
+
+    # Email methods
     def add_email(self, name: str, email: str) -> None:
         contact = self.find(name)
         if contact:
@@ -70,24 +115,24 @@ class AddressBook(UserDict):
                 return "Email is added"
             else:
                 return "Empty value, give me email"
-        else: 
+        else:
             return "User not found"
-        
+
     def edit_email(self, name: str, old_email: str, new_email: str) -> None:
         contact = self.find(name)
         if contact:
             if old_email in [str(i) for i in contact.emails]:
-                pattern = re.compile(r'[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}')
+                pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
                 if re.match(pattern, new_email):
                     contact.edit_email(old_email, new_email)
                     return "Email updated"
-                else: 
+                else:
                     return "Wrong email format"
             else:
-                return f"Email {old_email} not found" 
-        else: 
+                return f"Email {old_email} not found"
+        else:
             return "User not found"
-        
+
     def show_email(self, name: str) -> None:
         contact = self.find(name)
         if contact:
@@ -96,10 +141,10 @@ class AddressBook(UserDict):
                 return f"Email is: {email_str}"
             else:
                 return "Email not found"
-        else: 
+        else:
             return "User not found"
-        
-    def remove_email(self, name: str, email_to_remove: str) -> None:
+
+    def delete_email(self, name: str, email_to_remove: str) -> None:
         contact = self.find(name)
         if contact:
             emails = contact.emails
@@ -108,12 +153,29 @@ class AddressBook(UserDict):
                     contact.emails.remove(em)
                     return f"Email removed from the contact"
             return f"Email '{email_to_remove}' not found"
-        else: 
+        else:
             return "User not found"
 
-    def set_birthday(self, name: str, date: str) -> None:
+    # Birthday methods
+    def add_birthday(self, name: str, date: str) -> None:
         contact = self.find(name)
         contact.add_birthday(date)
+
+    def add_birthday(self, contact_name, birthday):
+        contact = self.find(contact_name)
+        if contact:
+            contact.add_birthday(birthday)
+            print(f"\n🎂 Birthday added for {contact_name}\n")
+        else:
+            print(f"\n❌ Contact {contact_name} not found\n")
+
+    def edit_birthday(self, contact_name, new_birthday):
+        contact = self.find(contact_name)
+        if contact:
+            contact.birthday.value = new_birthday
+            print(f"\n🎂 Birthday updated for {contact_name}\n")
+        else:
+            print(f"\n❌ Contact {contact_name} not found\n")
 
     def show_birthday(self, name: str) -> str:
         contact = self.find(name)
@@ -124,6 +186,14 @@ class AddressBook(UserDict):
             raise AttributeError(
                 f"The birthday field is missing from {contact.name.value}'s contact"
             )
+
+    def delete_birthday(self, contact_name):
+        contact = self.find(contact_name)
+        if contact:
+            contact.birthday = None
+            print(f"\n🎂 Birthday removed for {contact_name}\n")
+        else:
+            print(f"\n❌ Contact {contact_name} not found\n")
 
     def get_birthdays_per_week(self) -> str:
         birthday_dict = defaultdict(list)
@@ -151,14 +221,47 @@ class AddressBook(UserDict):
 
         return birthdays_info
 
-#book = AddressBook()
+    def show_birthdays(self, args):
+        if len(args) == 0:
+            days = 7
+        else:
+            try:
+                days = int(args[0])
+            except ValueError:
+                print("Invalid number of days. Please provide a valid integer.")
+                return
 
-#john_record = Record("John")
-#john_record.add_phone("1234567890")
-#john_record.add_phone("5555555555")
-#book.add_record(john_record)
-#book.add_address("john", "Kyiv")
-#print(book.add_email("John", "hh@kk.co"))
+        today = datetime.now().date()
+        upcoming_birthdays = defaultdict(list)
+
+        for name, record in self.data.items():
+            if record.birthday:
+                bday = datetime.strptime(record.birthday.value, "%d.%m.%Y").date()
+                next_birthday = datetime(today.year, bday.month, bday.day).date()
+
+                if today <= next_birthday <= today + timedelta(days=days):
+                    upcoming_birthdays[next_birthday].append(name)
+
+        if not upcoming_birthdays:
+            print(f"No upcoming birthdays in the next {days} days.")
+        else:
+            print(f"Upcoming birthdays in the next {days} days:")
+            for next_birthday, names in sorted(upcoming_birthdays.items()):
+                day_of_week = WEEKDAYS[next_birthday.weekday()]
+                formatted_names = ", ".join(
+                    [f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names]
+                )
+                print(f"{day_of_week}: {formatted_names}")
+
+
+# book = AddressBook()
+
+# john_record = Record("John")
+# john_record.add_phone("1234567890")
+# john_record.add_phone("5555555555")
+# book.add_record(john_record)
+# book.add_address("john", "Kyiv")
+# print(book.add_email("John", "hh@kk.co"))
 # book.add_email("John", "ww@rr.co")
 
 # book.edit_email("John","hh@kk.co", "pp@uiu.co")
@@ -183,99 +286,3 @@ class AddressBook(UserDict):
 # book.add_address("John", "Poltava")
 # for name, record in book.data.items():
 #     print(record)
-
-    def add_contact(self, name: str, tags: list):
-        contact = Record(name)
-        self.add_record(contact)
-        print("\n🟢 Contact added\n")
-
-
-    def search_contact(self, search_query: str):
-        contact = self.find(search_query)
-        if contact:
-            print("\n✅ Contact found:")
-            print(contact)
-        else:
-            print(f"\n❌ Contact '{search_query}' not found\n")
-            
-    def edit_contact(self, name, field, old_value, new_value):
-        contact = self.find(name)
-        if contact:
-            if field == "name":
-                contact.name.value = new_value
-            elif field == "phone":
-                contact.edit_phone(old_value, new_value)
-            else:
-                print(f"\n❌ Invalid field: {field}")
-                return
-            print("\n📒 Contact updated:")
-            print(contact)
-        else:
-            print(f"\n❌ Contact {name} not found\n")
-
-    def delete_contact(self, name):
-        contact = self.find(name)
-        if contact:
-            self.delete(name)
-            print(f"\n❌ Contact {name} deleted\n")
-        else:
-            print(f"\n❌ Contact {name} not found\n")
-
-    def display_contacts(self):
-        print("\n📱 All contacts:")
-        for contact in self.data.values():
-            print(contact)
-
-    def add_birthday(self, contact_name, birthday):
-        contact = self.find(contact_name)
-        if contact:
-            contact.add_birthday(birthday) 
-            print(f"\n🎂 Birthday added for {contact_name}\n")
-        else:
-            print(f"\n❌ Contact {contact_name} not found\n")
-
-    def show_birthdays(self, args):
-        if len(args) == 0:
-            days = 7
-        else:
-            try:
-                days = int(args[0])
-            except ValueError:
-                print("Invalid number of days. Please provide a valid integer.")
-                return
-
-        today = datetime.now().date()
-        upcoming_birthdays = defaultdict(list)
-
-        for name, record in self.data.items():
-            if record.birthday:
-                bday = datetime.strptime(record.birthday.value, '%d.%m.%Y').date()
-                next_birthday = datetime(today.year, bday.month, bday.day).date()
-
-                if today <= next_birthday <= today + timedelta(days=days):
-                    upcoming_birthdays[next_birthday].append(name)
-
-        if not upcoming_birthdays:
-            print(f"No upcoming birthdays in the next {days} days.")
-        else:
-            print(f"Upcoming birthdays in the next {days} days:")
-            for next_birthday, names in sorted(upcoming_birthdays.items()):
-                day_of_week = WEEKDAYS[next_birthday.weekday()]
-                formatted_names = ", ".join([f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names])
-                print(f"{day_of_week}: {formatted_names}")
-
-    def remove_birthday(self, contact_name):
-        contact = self.find(contact_name)
-        if contact:
-            contact.birthday = None 
-            print(f"\n🎂 Birthday removed for {contact_name}\n")
-        else:
-            print(f"\n❌ Contact {contact_name} not found\n")
-
-    def edit_birthday(self, contact_name, new_birthday):
-        contact = self.find(contact_name)
-        if contact:
-            contact.birthday.value = new_birthday 
-            print(f"\n🎂 Birthday updated for {contact_name}\n")
-        else:
-            print(f"\n❌ Contact {contact_name} not found\n")

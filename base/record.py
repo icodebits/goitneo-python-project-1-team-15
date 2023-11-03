@@ -1,8 +1,8 @@
-from email import Email
-from name import Name
-from phone import Phone
-from birthday import Birthday
-from address import Address
+from base.email import Email
+from base.name import Name
+from base.phone import Phone
+from base.birthday import Birthday
+from base.address import Address
 
 
 class Record:
