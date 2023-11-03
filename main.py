@@ -217,24 +217,24 @@ CONTACTS_OPERATIONS = {
     "delete": delete_record,
     "show-all": display_contacts,
     # Phone
-    "add-phone": add_phone,  # See to add_phone method
+    "add-phone": add_phone,
     "edit-phone": edit_phone,
-    "show-phone": show_phone,  # ?
+    "show-phone": show_phone,
     "delete-phone": delete_phone,
     # Address
     "add-address": add_address,
     "edit-address": edit_address,
-    "show-address": show_address,  # ?
+    "show-address": show_address,
     "delete-address": delete_address,
     # Email
     "add-email": add_email,
     "edit-email": edit_email,
-    "show-email": show_email,  # ?
+    "show-email": show_email,
     "delete-email": delete_email,
     # Birthday
     "add-birthday": add_birthday,
     "edit-birthday": edit_birthday,
-    "show-birthday": show_birthday,  # ?
+    "show-birthday": show_birthday,
     "delete-birthday": delete_birthday,
     "next-birthdays": next_birthdays,
 }
