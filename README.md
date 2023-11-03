@@ -52,12 +52,13 @@ App has an interactive menu that helps you write correct commands:
 ### Contacts commands
 | Command                                               | Description                                               |
 | ---                                                   | ---                                                       |
+| 🗂️ __Contact Commands__                               |                                                           |
 | `add <name>`                                          | Add a new contact to your list.                           |
 | `edit <name> <new_name>`                              | Edit name of the contact.                                 |
 | `delete <name>`                                       | Delete a contact from your list.                          |
 | `find <name>`                                         | Search a contact from your list.                          |
 | `show-all`                                            | View a list of all your contacts.                         |
-| ☎️ __Phone Commands__                                 |                                                           |
+| ☎️ __Phone Commands__                                  |                                                           |
 | `add-phone <name> <phone>`                            | Add a phone number(s) to the contact.                     | 
 | `edit-phone <name> <old_phone> <new_phone>`           | Change a phone number(s) for a contact.                   |
 | `show-phone <name>`                                   | Show a phone number(s) of a contact.                      |
@@ -84,6 +85,7 @@ App has an interactive menu that helps you write correct commands:
 ### Notes commands
 | Command                                               | Description                                               |
 | ---                                                   | ---                                                       |
+| 📝 __Notes Commands__                               |                                                           |
 | `add <note>`                                          | Create and save a new note.                               |
 | `edit <note_number> <new_text>`                       | Edit the content of a specific note.                      | 
 | `delete <note_number>`                                | Delete a note from your notes.                            | 
