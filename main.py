@@ -1,7 +1,6 @@
 from collections import defaultdict
 from base.address_book import AddressBook
 from base.notes import Notes
-from email_address import Birthday, Record, birthdays
 from helpers.cli_parser import parse_input
 from helpers.storage import load_data, save_data
 from helpers.weekdays import WEEKDAYS

@@ -1,7 +1,8 @@
 from collections import UserDict, defaultdict
 from datetime import datetime, timedelta
-from email_address import Record
+from base.record import Record
 from helpers.weekdays import WEEKDAYS, CURRENT_DATE
+import os
 
 class AddressBook(UserDict):
     def add_record(self, contact: dict) -> None:
