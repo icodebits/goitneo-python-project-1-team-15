@@ -1,5 +1,6 @@
 # CLI Contact List and Notes App
-## GoIT Neo Project 1 - TerminalAcademy Team - Team 15
+## GoIT Neo Project 1 - Team 15
+    TerminalAcademy: Where teams become reality
 
 ## Description
 
