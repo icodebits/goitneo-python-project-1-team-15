@@ -51,6 +51,38 @@ def edit_birthday(args, book):
     contact_name, new_birthday = args
     book.edit_birthday(contact_name, new_birthday)
 
+def add_address(args, book):
+    contact_name, address = args
+    book.add_address(contact_name, address)
+
+def edit_address(args, book):
+    contact_name, new_address = args
+    book.edit_address(contact_name, new_address)
+
+def show_address(args, book):
+    contact_name = args[0]
+    book.show_address(contact_name)
+
+def remove_address(args, book):
+    contact_name = args[0]
+    book.remove_address(contact_name)
+
+def add_email(args, book):
+    contact_name, email = args
+    book.add_email(contact_name, email)
+
+def edit_email(args, book):
+    contact_name, old_email, new_email = args
+    book.edit_email(contact_name, old_email, new_email)
+
+def show_email(args, book):
+    contact_name = args[0]
+    book.show_email(contact_name)
+
+def remove_email(args, book):
+    contact_name, email_to_remove = args
+    book.remove_email(contact_name, email_to_remove)
+
 # ==================
 # | NOTES HANDLERS |
 # ==================
@@ -110,6 +142,14 @@ CONTACTS_OPERATIONS = {
     "show-birthdays": show_birthdays,
     "remove-birthday": remove_birthday, 
     "edit-birthday": edit_birthday, 
+    "add-address": add_address,  
+    "edit-address": edit_address,
+    "show-address": show_address,
+    "remove-address": remove_address,
+    "add-email": add_email,
+    "edit-email": edit_email,
+    "show-email": show_email,
+    "remove-email": remove_email,
 }
 
 NOTES_OPERATIONS = {

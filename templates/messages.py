@@ -42,6 +42,14 @@ Commands:
     show-birthdays <days> 
     remove-birthday <name> 
     edit-birthday <name> <new_birthday> 
+    add-address <name> <address>  
+    edit-address <name> <new_address>  
+    show-address <name>  
+    remove-address <name> 
+    add-email <name> <email>  
+    edit-email <name> <old_email> <new_email> 
+    show-email <name> 
+    remove-email <name> <email_to_remove>
 
 
     back       # back to prev menu
@@ -68,3 +76,4 @@ Commands:
 back = "↵ Back selected"
 
 error = "🔴 Invalid command"
+

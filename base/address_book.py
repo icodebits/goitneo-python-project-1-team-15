@@ -1,5 +1,6 @@
 from collections import UserDict, defaultdict
 from datetime import datetime, timedelta
+import re
 from base.record import Record
 from helpers.weekdays import WEEKDAYS, CURRENT_DATE
 import os
@@ -29,6 +30,100 @@ class AddressBook(UserDict):
                 f"The birthday field is missing from {contact.name.value}'s contact"
             )
 
+    def add_address(self, name: str, address: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if address.strip():
+                contact.add_address(address)
+                return "The address is added"
+            else:
+                return "The address is incorrect"
+        else: 
+            return "User not found"
+
+    def edit_address(self, name: str, new_address: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                if new_address.strip():
+                    contact.address = new_address
+                else:
+                    return "The address is incorrect"       
+            else:
+                return "No address to edit"
+        else: 
+            return "User not found"
+
+    def show_address(self, name: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                return f"The address is: {contact.address}"
+            else:
+                return "Address not found"
+        else: 
+            return "User not found"
+
+    def remove_address(self, name: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.address:
+                contact.address = None
+                return "Address removed"
+            else:
+                return "No address to remove"
+        else: 
+            return "User not found"
+        
+    def add_email(self, name: str, email: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if email.strip():
+                contact.add_email(email)
+                return "Email is added"
+            else:
+                return "Empty value, give me email"
+        else: 
+            return "User not found"
+        
+    def edit_email(self, name: str, old_email: str, new_email: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if old_email in [str(i) for i in contact.emails]:
+                pattern = re.compile(r'[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}')
+                if re.match(pattern, new_email):
+                    contact.edit_email(old_email, new_email)
+                    return "Email updated"
+                else: 
+                    return "Wrong email format"
+            else:
+                return f"Email {old_email} not found" 
+        else: 
+            return "User not found"
+        
+    def show_email(self, name: str) -> None:
+        contact = self.find(name)
+        if contact:
+            if contact.emails:
+                email_str = [str(email) for email in contact.emails]
+                return f"Email is: {email_str}"
+            else:
+                return "Email not found"
+        else: 
+            return "User not found"
+        
+    def remove_email(self, name: str, email_to_remove: str) -> None:
+        contact = self.find(name)
+        if contact:
+            emails = contact.emails
+            for em in emails:
+                if str(em) == email_to_remove:
+                    contact.emails.remove(em)
+                    return f"Email removed from the contact"
+            return f"Email '{email_to_remove}' not found"
+        else: 
+            return "User not found"
+        
     def get_birthdays_per_week(self) -> str:
         birthday_dict = defaultdict(list)
         birthdays_info = ""
@@ -150,3 +245,4 @@ class AddressBook(UserDict):
             print(f"\n🎂 Birthday updated for {contact_name}\n")
         else:
             print(f"\n❌ Contact {contact_name} not found\n")
+
