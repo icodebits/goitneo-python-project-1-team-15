@@ -7,174 +7,171 @@ from collections import UserDict, defaultdict
 
 
 class AddressBook(UserDict):
-    def add_record(self, contact: dict) -> None:
+    def add_record(self, name):
+        contact = Record(name)
         self.data[contact.name.value] = contact
 
-    def find(self, key: str) -> object:
-        key = key.lower()
-        res = self.data.get(key)
-        return res
+    def edit(self, old_name, new_name):
+        contact = self.find(old_name)
+        contact.edit_name(new_name)
+        return "\n🟢 Contact updated"
 
-    def delete(self, key: str) -> None:
+    def find(self, key):
+        key = key.lower()
+        return self.data.get(key)
+
+    def delete(self, key):
         del self.data[key]
 
-    # Contacts methods
-    def add_contact(self, name: str, tags: list):
-        contact = Record(name)
-        self.add_record(contact)
-        print("\n🟢 Contact added\n")
+    def display_contacts(self):
+        contacts = "\n📱 All contacts:"
+        for contact in self.data.values():
+            contacts += f"\n{contact}"
+        return contacts
 
-    def edit_contact(self, name, field, old_value, new_value):
+    # Phone methods
+    def add_phone(self, name, phones):
+        contact = self.find(name)
+        res = contact.add_phone(phones)
+        return res
+
+    def edit_phone(self, name, old_value, new_value):
         contact = self.find(name)
         if contact:
-            if field == "name":
-                contact.name.value = new_value
-            elif field == "phone":
-                contact.edit_phone(old_value, new_value)
-            else:
-                print(f"\n❌ Invalid field: {field}")
-                return
-            print("\n📒 Contact updated:")
-            print(contact)
+            contact.edit_phone(old_value, new_value)
+            return "\n📒 Contact updated"
         else:
-            print(f"\n❌ Contact {name} not found\n")
+            return f"\n❌ Contact {name} not found"
 
-    def show_contact(self, search_query: str):
+    def show_phone(self, search_query):
         contact = self.find(search_query)
         if contact:
-            print("\n✅ Contact found:")
-            print(contact)
+            phone_list = "; ".join(str(p) for p in contact.phones)
+            return f"\n✅ Contact phones: {phone_list}"
         else:
-            print(f"\n❌ Contact '{search_query}' not found\n")
+            return f"\n❌ Contact '{search_query}' not found\n"
 
-    def delete_contact(self, name):
+    def delete_phone(self, name, phone):
         contact = self.find(name)
         if contact:
-            self.delete(name)
-            print(f"\n❌ Contact {name} deleted\n")
+            res = contact.remove_phone(phone)
+            if res:
+                return f"\n🟢 Contact phone deleted\n"
+            else:
+                return f"\n❌ Contact phone not found\n"
         else:
-            print(f"\n❌ Contact {name} not found\n")
-
-    def display_contacts(self):
-        print("\n📱 All contacts:")
-        for contact in self.data.values():
-            print(contact)
+            return f"\n❌ Contact {name} not found\n"
 
     # Address methods
-    def add_address(self, name: str, address: str) -> None:
+    def add_address(self, name, address):
         contact = self.find(name)
         if contact:
-            if address.strip():
-                contact.add_address(address)
-                return "The address is added"
-            else:
-                return "The address is incorrect"
+            address = " ".join(address).strip()
+            contact.add_address(address)
+            return "The address is added"
         else:
-            return "User not found"
+            return f"\n❌ Contact {name} not found\n"
 
-    def edit_address(self, name: str, new_address: str) -> None:
+    def edit_address(self, name, new_address):
         contact = self.find(name)
         if contact:
             if contact.address:
                 if new_address.strip():
                     contact.address = new_address
-                    print(f"\n✅ Address updated for {name}\n")
+                    return f"\n✅ Address updated for {name}"
                 else:
-                    print("❌ The address is incorrect")
+                    return "❌ The address is incorrect"
             else:
-                print("❌ No address to edit")
+                return "❌ No address to edit"
         else:
-            print("❌ User not found")
+            return "❌ User not found"
 
-    def show_address(self, name: str) -> None:
+    def show_address(self, name):
         contact = self.find(name)
         if contact:
             if contact.address:
-                print(f"\n✅ Address for {name}: {contact.address}")
+                return f"\n✅ Address for {name}: {contact.address}"
             else:
-                print(f"\n❌ Address not found for {name}")
+                return f"\n❌ Address not found for {name}"
         else:
-            print("❌ User not found")
+            return "❌ User not found"
 
-    def delete_address(self, name: str) -> None:
+    def delete_address(self, name):
         contact = self.find(name)
         if contact:
             if contact.address:
                 contact.address = None
-                print(f"\n✅ Address removed for {name}\n")
+                return f"\n✅ Address removed for {name}\n"
             else:
-                print("❌ No address to remove")
+                return "❌ No address to remove"
         else:
-            print("❌ User not found")
+            return "❌ User not found"
 
     # Email methods
-    def add_email(self, name: str, email: str) -> None:
+    def add_email(self, name, email):
         contact = self.find(name)
         if contact:
-            if email.strip():
-                contact.add_email(email)
-                return "Email is added"
-            else:
-                return "Empty value, give me email"
+            res = contact.add_email(email)
+            return res
         else:
-            return "User not found"
+            return "❌ User not found"
 
-    def edit_email(self, name: str, old_email: str, new_email: str) -> None:
+    def edit_email(self, name, old_email, new_email):
         contact = self.find(name)
         if contact:
             if old_email in [str(i) for i in contact.emails]:
                 pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
                 if re.match(pattern, new_email):
                     contact.edit_email(old_email, new_email)
-                    return "Email updated"
+                    return "✅ Email updated"
                 else:
-                    return "Wrong email format"
+                    return "❌ Wrong email format"
             else:
-                return f"Email {old_email} not found"
+                return f"❌ Email {old_email} not found"
         else:
-            return "User not found"
+            return "❌ User not found"
 
-    def show_email(self, name: str) -> None:
+    def show_email(self, name):
         contact = self.find(name)
         if contact:
             if contact.emails:
-                email_str = [str(email) for email in contact.emails]
-                return f"Email is: {email_str}"
+                email_list = "; ".join(str(e) for e in contact.emails)
+                return f"✅ Email is: {email_list}"
             else:
-                return "Email not found"
+                return "❌ Email not found"
         else:
-            return "User not found"
+            return "❌ User not found"
 
-    def delete_email(self, name: str, email_to_remove: str) -> None:
+    def delete_email(self, name, email_to_remove):
         contact = self.find(name)
         if contact:
             emails = contact.emails
             for em in emails:
                 if str(em) == email_to_remove:
                     contact.emails.remove(em)
-                    return f"Email removed from the contact"
-            return f"Email '{email_to_remove}' not found"
+                    return f"✅ Email removed from the contact"
+            return f"❌ Email '{email_to_remove}' not found"
         else:
-            return "User not found"
+            return "❌ User not found"
 
     # Birthday methods
     def add_birthday(self, contact_name, birthday):
         contact = self.find(contact_name)
         if contact:
             contact.add_birthday(birthday)
-            print(f"\n🎂 Birthday added for {contact_name}\n")
+            return f"\n🎂 Birthday added for {contact_name}"
         else:
-            print(f"\n❌ Contact {contact_name} not found\n")
+            return f"\n❌ Contact {contact_name} not found"
 
     def edit_birthday(self, contact_name, new_birthday):
         contact = self.find(contact_name)
         if contact:
             contact.birthday.value = new_birthday
-            print(f"\n🎂 Birthday updated for {contact_name}\n")
+            return f"\n🎂 Birthday updated for {contact_name}"
         else:
-            print(f"\n❌ Contact {contact_name} not found\n")
+            return f"\n❌ Contact {contact_name} not found"
 
-    def show_birthday(self, name: str) -> str:
+    def show_birthday(self, name):
         contact = self.find(name)
 
         if contact.birthday:
@@ -188,11 +185,11 @@ class AddressBook(UserDict):
         contact = self.find(contact_name)
         if contact:
             contact.birthday = None
-            print(f"\n🎂 Birthday removed for {contact_name}\n")
+            return f"\n🎂 Birthday removed for {contact_name}"
         else:
-            print(f"\n❌ Contact {contact_name} not found\n")
+            return f"\n❌ Contact {contact_name} not found"
 
-    def show_birthdays(self, days=7):
+    def next_birthdays(self, days=7):
         today = datetime.now().date()
         upcoming_birthdays = defaultdict(list)
 
@@ -205,12 +202,13 @@ class AddressBook(UserDict):
                     upcoming_birthdays[next_birthday].append(name)
 
         if not upcoming_birthdays:
-            print(f"No upcoming birthdays in the next {days} days.")
+            return f"No upcoming birthdays in the next {days} days."
         else:
-            print(f"Upcoming birthdays in the next {days} days:")
+            desc = f"Upcoming birthdays in the next {days} days:"
             for next_birthday, names in sorted(upcoming_birthdays.items()):
                 day_of_week = WEEKDAYS[next_birthday.weekday()]
                 formatted_names = ", ".join(
                     [f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names]
                 )
-                print(f"{day_of_week}: {formatted_names}")
+                desc += f"\n{day_of_week}: {formatted_names}"
+            return desc

@@ -60,8 +60,7 @@ Commands:
     delete-birthday    <name> <birthday>
     next-birthdays     <days>
 
-
-    back            # back to prev menu
+    back               # back to prev menu
 """
 
 notes_menu = """
