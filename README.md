@@ -57,28 +57,28 @@ App has an interactive menu that helps you write correct commands:
 | `delete <name>`                                       | Delete a contact from your list.                          |
 | `find <name>`                                         | Search a contact from your list.                          |
 | `show-all`                                            | View a list of all your contacts.                         |
-|                                                       |                                                           |
+| __Phone Commands__                                    |                                                           |
 | `add-phone <name> <phone>`                            | Add a phone number(s) to the contact.                     | 
 | `edit-phone <name> <old_phone> <new_phone>`           | Change a phone number(s) for a contact.                   |
 | `show-phone <name>`                                   | Show a phone number(s) of a contact.                      |
 | `delete-phone <name> <phone>`                         | Delete a phone number from a contact.                     | 
-|                                                       |                                                           |
+| __Address Commands__                                  |                                                           |
 | `add-address <name> <address>`                        | Add an address to the contact.                            |
 | `edit-address <name> <old_address> <new_address>`     | Change the address of the contact.                        |
 | `show-address <name>`                                 | Show the address of the contact.                          |
 | `delete-address <name> <address>`                     | Delete the address of the contcat.                        |
-|                                                       |                                                           |
+| __Email Commands__                                    |                                                           |
 | `add-email <name> <email>`                            | Add an e-mail to the contact.                             |
 | `edit-email <name> <old_email> <new_email>`           | Change the e-mail of the contact.                         |
 | `show-email <name>`                                   | Show the e-mail of the contact.                           |
 | `delete-email <name> <email>`                         | Delete the address of the contcat.                        |
-|                                                       |                                                           |
+| __Birthday Commands__                                 |                                                           |
 | `add-birthday <name> <birthday>`                      | Add a birthday of the contact.                            |
 | `edit-birthday <name> <old_birthday> <new_birthday>`  | Change the birthday of the contact.                       |
 | `show-birthday <name>`                                | Show the birthday of the contact.                         |
 | `delete-birthday <name> <birthday>`                   | Delete the birthday of the contcat.                       |
 | `next-birthdays <days>`                               | Show contacts that have their birthday within next N days |
-|                                                       |                                                           |
+| __Menu Commands__                                     |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
 ### Notes commands
@@ -92,7 +92,7 @@ App has an interactive menu that helps you write correct commands:
 | `add-tags <note_number> <tag_names>`                  | Add tags to a specific note.                              | 
 | `search-tags <note_keywords>`                         | Find the notes by the tag.                                | 
 | `sort-tags`                                           | Sort notes by a tag.                                      | 
-|                                                       |                                                           |
+| __Menu Commands__                                     |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
 ## Examples
