@@ -1,87 +1,109 @@
-from collections import defaultdict
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
 from helpers.storage import load_data, save_data
-from helpers.weekdays import WEEKDAYS
 
 import templates.messages as msg
-from datetime import datetime
-from datetime import timedelta
+
 import time  # add timeouts for output
-from collections import defaultdict
 from colorama import just_fix_windows_console, Fore, Style  # add styles to cli output
 
 just_fix_windows_console()  # execute for Windows OS compatibility
 
+
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
+def add_record(args, book):
+    print("Added record")
+
+
+def find_record(args, book):
+    print("Edited record")
+
+
+def delete_record(args, book):
+    print("Deleted record")
+
+
+# Address
+def add_address(args, book):
+    print("Added address")
+
+
+def edit_address(args, book):
+    print("Edited address")
+
+
+def show_address(args, book):
+    print("Showed address")
+
+
+def delete_address(args, book):
+    print("Deleted address")
+
+
+# Email
+def add_email(args, book):
+    print("Added email")
+
+
+def edit_email(args, book):
+    print("Edited email")
+
+
+def show_email(args, book):
+    print("Showed email")
+
+
+def delete_email(args, book):
+    print("Deleted email")
+
+
+# Contacts
 def add_contact(args, book):
     name, *tags = args
     book.add_contact(name, tags)
 
-def search_contact(args, book):
-    search_query = args[0].lower()
-    book.search_contact(search_query)
 
 def edit_contact(args, book):
     name, field, old_value, new_value = args
     book.edit_contact(name, field, old_value, new_value)
 
+
+def show_contact(args, book):
+    search_query = args[0].lower()
+    book.search_contact(search_query)
+
+
 def delete_contact(args, book):
     name = args[0]
     book.delete_contact(name)
 
+
 def display_contacts(args, book):
     book.display_contacts()
 
+
+# Birthday
 def add_birthday(args, book):
     contact_name, birthday = args
     book.add_birthday(contact_name, birthday)
 
-def show_birthdays(args, book):
-    book.show_birthdays(args)
-
-def remove_birthday(args, book):
-    contact_name = args[0]
-    book.remove_birthday(contact_name)
 
 def edit_birthday(args, book):
     contact_name, new_birthday = args
     book.edit_birthday(contact_name, new_birthday)
 
-def add_address(args, book):
-    contact_name, address = args
-    book.add_address(contact_name, address)
 
-def edit_address(args, book):
-    contact_name, new_address = args
-    book.edit_address(contact_name, new_address)
+def show_birthday(args, book):
+    book.show_birthdays(args)
 
-def show_address(args, book):
+
+def delete_birthday(args, book):
     contact_name = args[0]
-    book.show_address(contact_name)
+    book.remove_birthday(contact_name)
 
-def remove_address(args, book):
-    contact_name = args[0]
-    book.remove_address(contact_name)
-
-def add_email(args, book):
-    contact_name, email = args
-    book.add_email(contact_name, email)
-
-def edit_email(args, book):
-    contact_name, old_email, new_email = args
-    book.edit_email(contact_name, old_email, new_email)
-
-def show_email(args, book):
-    contact_name = args[0]
-    book.show_email(contact_name)
-
-def remove_email(args, book):
-    contact_name, email_to_remove = args
-    book.remove_email(contact_name, email_to_remove)
 
 # ==================
 # | NOTES HANDLERS |
@@ -91,16 +113,19 @@ def add_note(args, notes):
     res = notes.add_note(note_content)
     print(f"\n{res}\r\n")
 
+
 def edit_note(args, notes):
     position = args[0]
     content = " ".join(args[1:])
     res = notes.edit_note(int(position), content)
     print(f"\n{res}\r\n")
 
+
 def delete_note(args, notes):
     position = args[0]
     res = notes.delete_note(int(position))
     print(f"\n{res}\r\n")
+
 
 def search_notes(args, notes):
     keyword = args[0]
@@ -109,15 +134,18 @@ def search_notes(args, notes):
     for note in res:
         print(note)
 
+
 def display_notes(args, notes):
     print("\nAll notes:")
     notes.display_notes()
+
 
 def add_tags(args, notes):
     note_idx = int(args[0])
     tags = args[1:]
     res = notes.add_tags(note_idx, tags)
     print(f"\n{res}\r\n")
+
 
 def search_notes_by_tag(args, notes):
     search_tag = args[0]
@@ -126,30 +154,39 @@ def search_notes_by_tag(args, notes):
     for note in res:
         print(note)
 
+
 def sort_notes_by_tag(args, notes):
     res = notes.sort_notes_by_tag()
     print(f"\nSorted notes by tags:")
     for note in res:
         print(note)
 
+
 CONTACTS_OPERATIONS = {
-    "add": add_contact,
-    "search": search_contact,
-    "edit": edit_contact,
-    "delete": delete_contact,
-    "show-all": display_contacts,
-    "add-birthday": add_birthday,  
-    "show-birthdays": show_birthdays,
-    "remove-birthday": remove_birthday, 
-    "edit-birthday": edit_birthday, 
-    "add-address": add_address,  
+    "add": add_record,
+    "find": find_record,
+    "delete": delete_record,
+    # Contacts
+    "add-contact": add_contact,
+    "edit-contact": edit_contact,
+    "show-contact": show_contact,
+    "delete-contact": delete_contact,
+    "show-contacts": display_contacts,
+    # Address
+    "add-address": add_address,
     "edit-address": edit_address,
     "show-address": show_address,
-    "remove-address": remove_address,
+    "delete-address": delete_address,
+    # Email
     "add-email": add_email,
     "edit-email": edit_email,
     "show-email": show_email,
-    "remove-email": remove_email,
+    "delete-email": delete_email,
+    # Birthday
+    "add-birthday": add_birthday,
+    "edit-birthday": edit_birthday,
+    "show-birthday": show_birthday,
+    "delete-birthday": delete_birthday,
 }
 
 NOTES_OPERATIONS = {
@@ -163,21 +200,26 @@ NOTES_OPERATIONS = {
     "sort-tags": sort_notes_by_tag,
 }
 
+
 def handler_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except KeyError:
             return "Unsupported operation type"
+
     return inner
+
 
 @handler_error
 def contacts_handler(operator):
     return CONTACTS_OPERATIONS[operator]
 
+
 @handler_error
 def notes_handler(operator):
     return NOTES_OPERATIONS[operator]
+
 
 def main():
     book = AddressBook()
@@ -190,8 +232,8 @@ def main():
     print(msg.welcome)
 
     data = load_data("data.pkl")
-    book = data['contacts']
-    notes = data['notes']
+    book = data["contacts"]
+    notes = data["notes"]
 
     while not main_menu_exit:
         if notes_menu_back or contacts_menu_back:  # main menu
@@ -219,7 +261,7 @@ def main():
                     print(Fore.YELLOW + msg.back)  # set color to cli
                     print(Style.RESET_ALL)  # reset colors
                     break
-                
+
                 try:
                     contacts_handler(command)(args, book)
                 except TypeError:
@@ -247,10 +289,11 @@ def main():
         else:
             print(Fore.RED + msg.error)
             print(Style.RESET_ALL)
-    
-    data['contacts'] = book
-    data['notes'] = notes
+
+    data["contacts"] = book
+    data["notes"] = notes
     save_data(data, "data.pkl")
+
 
 if __name__ == "__main__":
     main()
