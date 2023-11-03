@@ -144,8 +144,12 @@ def delete_birthday(args, book):
 
 
 def next_birthdays(args, book):
-    days = args
-    res = book.next_birthdays(days)
+    if len(args) == 0:
+        res = book.next_birthdays()
+    else:
+        days = args[0]
+        res = book.next_birthdays(int(days))
+
     print(res)
 
 
