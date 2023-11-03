@@ -24,6 +24,10 @@ The CLI Contact List and Notes App is a command-line tool designed to help you m
   - Perform filtering based on tags.
   - Sort notes by tag.
 
+- Local storage
+    - App saves the data in a file on the user's hard drive.
+    - Saved data is retrieved on the restarting of the app.
+
 ## Installation
 
 To use the CLI Contact List and Notes App, you'll need to follow these steps:
@@ -32,14 +36,18 @@ To use the CLI Contact List and Notes App, you'll need to follow these steps:
 
    ```bash
    git clone https://github.com/icodebits/project-pyteam15.git
+   ```
 
 2. **Install dependences:**
-    ```
+
+    ```bash
     cd project-pyteam15
     python3 -m pip install colorama
     ```
+
 3. **Run the App:**
-    ```
+
+    ```bash
     cd project-pyteam15
     python3 main.py
     ```
