@@ -78,33 +78,34 @@ class AddressBook(UserDict):
             if contact.address:
                 if new_address.strip():
                     contact.address = new_address
+                    print(f"\n✅ Address updated for {name}\n")
                 else:
-                    return "The address is incorrect"
+                    print("❌ The address is incorrect")
             else:
-                return "No address to edit"
+                print("❌ No address to edit")
         else:
-            return "User not found"
+            print("❌ User not found")
 
     def show_address(self, name: str) -> None:
         contact = self.find(name)
         if contact:
             if contact.address:
-                return f"The address is: {contact.address}"
+                print(f"\n✅ Address for {name}: {contact.address}")
             else:
-                return "Address not found"
+                print(f"\n❌ Address not found for {name}")
         else:
-            return "User not found"
+            print("❌ User not found")
 
     def delete_address(self, name: str) -> None:
         contact = self.find(name)
         if contact:
             if contact.address:
                 contact.address = None
-                return "Address removed"
+                print(f"\n✅ Address removed for {name}\n")
             else:
-                return "No address to remove"
+                print("❌ No address to remove")
         else:
-            return "User not found"
+            print("❌ User not found")
 
     # Email methods
     def add_email(self, name: str, email: str) -> None:
@@ -157,10 +158,6 @@ class AddressBook(UserDict):
             return "User not found"
 
     # Birthday methods
-    def add_birthday(self, name: str, date: str) -> None:
-        contact = self.find(name)
-        contact.add_birthday(date)
-
     def add_birthday(self, contact_name, birthday):
         contact = self.find(contact_name)
         if contact:
@@ -195,81 +192,7 @@ class AddressBook(UserDict):
         else:
             print(f"\n❌ Contact {contact_name} not found\n")
 
-    def get_birthdays_per_week(self) -> str:
-        birthday_dict = defaultdict(list)
-        birthdays_info = ""
-
-    def edit_address(self, name: str, new_address: str) -> None:
-        contact = self.find(name)
-        if contact:
-            if contact.address:
-                if new_address.strip():
-                    contact.address = new_address
-                    print(f"\n✅ Address updated for {name}\n")
-                else:
-                    print("❌ The address is incorrect")
-            else:
-                print("❌ No address to edit")
-        else:
-            print("❌ User not found")
-
-    def show_address(self, name: str) -> None:
-        contact = self.find(name)
-        if contact:
-            if contact.address:
-                print(f"\n✅ Address for {name}: {contact.address}")
-            else:
-                print(f"\n❌ Address not found for {name}")
-        else:
-            print("❌ User not found")
-
-    def remove_address(self, name: str) -> None:
-        contact = self.find(name)
-        if contact:
-            if contact.address:
-                contact.address = None
-                print(f"\n✅ Address removed for {name}\n")
-            else:
-                print("❌ No address to remove")
-        else:
-            print("❌ User not found")
-
-    def add_email(self, name: str, email: str) -> None:
-        contact = self.find(name)
-        if contact:
-            if email.strip():
-                contact.add_email(email)
-                print(f"\n✅ Email added for {name}\n")
-            else:
-                print("❌ Empty value, please provide an email")
-        else:
-            print("❌ User not found")
-
-    def edit_email(self, name: str, old_email: str, new_email: str) -> None:
-        contact = self.find(name)
-        if contact:
-            if old_email in [str(i) for i in contact.emails]:
-                pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
-                if re.match(pattern, new_email):
-                    contact.edit_email(old_email, new_email)
-                    print(f"\n✅ Email updated for {name}\n")
-                else:
-                    print("❌ Wrong email format")
-            else:
-                print(f"❌ Email '{old_email}' not found for {name}")
-        else:
-            print("❌ User not found")
-
-    def show_birthdays(self, args):
-        if len(args) == 0:
-            days = 7
-        else:
-            try:
-                days = int(args[0])
-            except ValueError:
-                print("Invalid number of days. Please provide a valid integer.")
-                return
-
+    def show_birthdays(self, days=7):
         today = datetime.now().date()
         upcoming_birthdays = defaultdict(list)
 
@@ -291,37 +214,3 @@ class AddressBook(UserDict):
                     [f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names]
                 )
                 print(f"{day_of_week}: {formatted_names}")
-
-
-# book = AddressBook()
-
-# john_record = Record("John")
-# john_record.add_phone("1234567890")
-# john_record.add_phone("5555555555")
-# book.add_record(john_record)
-# book.add_address("john", "Kyiv")
-# print(book.add_email("John", "hh@kk.co"))
-# book.add_email("John", "ww@rr.co")
-
-# book.edit_email("John","hh@kk.co", "pp@uiu.co")
-# book.show_email("John")
-# book.remove_email("John", "pp@uiu.co")
-# for name, record in book.data.items():
-#     print(record)
-
-# print("The address is edited")
-# book.edit_address("John", "Lviv")
-# for name, record in book.data.items():
-#     print(record)
-
-# john = book.show_address("John")
-# print(john)
-# john1 = book.remove_address("John")
-# print(john1)
-# for name, record in book.data.items():
-#     print(record)
-
-# print("New address is added")
-# book.add_address("John", "Poltava")
-# for name, record in book.data.items():
-#     print(record)
