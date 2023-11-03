@@ -1,5 +1,6 @@
 import re
-from field import Field
+from base.field import Field
+
 
 class Email(Field):
     def __init__(self, value):
@@ -7,8 +8,6 @@ class Email(Field):
         self.validated_email()
 
     def validated_email(self):
-        pattern = re.compile(r'[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}')
+        pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
         if not re.match(pattern, self.value):
             raise ValueError(print("Wrong email format"))
-        
-   
