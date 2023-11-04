@@ -1,3 +1,4 @@
+from analysis.examination import CommandAnalyzer
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
@@ -209,7 +210,6 @@ def sort_notes_by_tag(args, notes):
     for note in res:
         print(note)
 
-
 CONTACTS_OPERATIONS = {
     "add": add_record,
     "edit": edit_record,
@@ -299,40 +299,48 @@ def main():
             print(msg.leave)
             main_menu_exit = True
 
-        elif command == "contacts":  # contacts menu
+        if command == "contacts":
             print(msg.contacts_menu)
-            time.sleep(0.6)  # wait 600ms after printing menu
+            time.sleep(0.6)
             while not contacts_menu_back:
                 user_input = input("Enter a command: ").strip().lower()
                 command, *args = parse_input(user_input)
 
                 if command == "back":
                     contacts_menu_back = True
-                    print(Fore.YELLOW + msg.back)  # set color to cli
-                    print(Style.RESET_ALL)  # reset colors
+                    print(Fore.YELLOW + msg.back)
+                    print(Style.RESET_ALL)
                     break
 
                 try:
-                    contacts_handler(command)(args, book)
+                    if command == "analyze":
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("contact") 
+                    else:
+                        contacts_handler(command)(args, book)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
 
-        elif command == "notes":  # notes menu
+        elif command == "notes":
             print(msg.notes_menu)
-            time.sleep(0.6)  # wait 600ms after printing menu
+            time.sleep(0.6)
             while not notes_menu_back:
                 user_input = input("Enter a command: ").strip()
                 command, *args = parse_input(user_input)
 
                 if command == "back":
                     notes_menu_back = True
-                    print(Fore.YELLOW + msg.back)  # set color to cli
-                    print(Style.RESET_ALL)  # reset colors
+                    print(Fore.YELLOW + msg.back)
+                    print(Style.RESET_ALL)
                     break
 
                 try:
-                    notes_handler(command)(args, notes)
+                    if command == "analyze":
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("notes")
+                    else:
+                        notes_handler(command)(args, notes)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
