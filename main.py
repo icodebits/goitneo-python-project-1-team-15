@@ -299,17 +299,17 @@ def main():
             print(msg.leave)
             main_menu_exit = True
 
-        if command == "contacts":
+        if command == "contacts":  # contacts menu
             print(msg.contacts_menu)
-            time.sleep(0.6)
+            time.sleep(0.6)  # wait 600ms after printing menu
             while not contacts_menu_back:
                 user_input = input("Enter a command: ").strip().lower()
                 command, *args = parse_input(user_input)
 
                 if command == "back":
                     contacts_menu_back = True
-                    print(Fore.YELLOW + msg.back)
-                    print(Style.RESET_ALL)
+                    print(Fore.YELLOW + msg.back)  # set color to cli
+                    print(Style.RESET_ALL)  # reset colors
                     break
 
                 try:
@@ -322,17 +322,17 @@ def main():
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
 
-        elif command == "notes":
+        elif command == "notes":  # notes menu
             print(msg.notes_menu)
-            time.sleep(0.6)
+            time.sleep(0.6)  # wait 600ms after printing menu
             while not notes_menu_back:
                 user_input = input("Enter a command: ").strip()
                 command, *args = parse_input(user_input)
 
                 if command == "back":
                     notes_menu_back = True
-                    print(Fore.YELLOW + msg.back)
-                    print(Style.RESET_ALL)
+                    print(Fore.YELLOW + msg.back)  # set color to cli
+                    print(Style.RESET_ALL)  # reset colors
                     break
 
                 try:
