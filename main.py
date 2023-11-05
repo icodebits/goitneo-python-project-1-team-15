@@ -21,28 +21,6 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
-
-
-def contacts_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
-
-    return wrapper
-
-
-def notes_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
-
-    return wrapper
-
-
 @contacts_error
 def add_record(args, book):
     if len(args) == 0:
