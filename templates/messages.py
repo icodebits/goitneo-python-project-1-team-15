@@ -1,3 +1,10 @@
+from colorama import init, just_fix_windows_console  # add styles to cli output
+from termcolor import colored
+
+init(autoreset=True)  # automatically reset colors in cli
+just_fix_windows_console()  # execute for Windows OS compatibility
+
+
 welcome = """
 =============================
 | Welcome to assistant bot: |
@@ -84,8 +91,8 @@ Commands:
 
     back         # back to prev menu
 """
+command = colored("Enter a command: ", "magenta")
+back = colored("\n↵ Back selected\n", "yellow")
 
-back = "↵ Back selected"
-
-error = "🔴 Invalid command"
-empty_params = "🟡 Please select an option"
+error = colored("\n🔴 Invalid command\n", "red")
+empty_params = colored("\n🟡 Please select an option\n", "yellow")
