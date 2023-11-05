@@ -362,7 +362,7 @@ NOTES_OPERATIONS = {
 }
 
 
-# @handler_error
+@handler_error
 def contacts_handler(operator):
     return CONTACTS_OPERATIONS[operator]
 
