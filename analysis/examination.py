@@ -52,8 +52,8 @@ class CommandAnalyzer:
                     print(self.commands[keyword])
             print("Do you see the command you wanted to use?\n"
                   "If not, please copy your text and the desired command, and describe what you wanted or the command.\n"
-                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com.")
+                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com")
         else:
             print("I can't find this command\n"
                   "Please copy your text and the desired command, and describe what you wanted or the command.\n"
-                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com.")
+                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com")

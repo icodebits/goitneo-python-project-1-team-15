@@ -47,13 +47,28 @@ class AddressBook(UserDict):
         return contacts
 
     # Phone methods
+    # def add_phone(self, name, phones):
+    #     if name.lower() in self.data:
+    #         contact = self.data[name.lower()]
+    #         contact.add_phone(phones)
+    #         print("\n✅ Phone added")
+    #     else:
+    #         print(f"\n❌ Contact '{name}' not found")
+
     def add_phone(self, name, phones):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
-            contact.add_phone(phones)
-            print("\n✅ Phone added")
+            
+            stripped_phones = ''.join(filter(str.isdigit, phones))
+
+            if len(stripped_phones) == 10:
+                contact.add_phone(phones)
+                print("\n✅ Phone added")
+            else:
+                print("\n❌ Phone should contain 10 consecutive digits.")
         else:
             return f"\n❌ Contact '{name}' not found"
+
 
     def edit_phone(self, name, old_value, new_value):
         if name.lower() in self.data:

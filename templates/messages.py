@@ -57,7 +57,7 @@ Commands:
     add-birthday       <name> <birthday>
     edit-birthday      <name> <old_birthday> <new_birthday>
     show-birthday      <name>
-    delete-birthday    <name> <birthday>
+    delete-birthday    <name> 
     next-birthdays     <days>
 
     analyze            # open analyze menu

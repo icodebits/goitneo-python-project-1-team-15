@@ -1,3 +1,4 @@
+import datetime
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
@@ -14,11 +15,46 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
+
+def contacts_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except AttributeError as e:
+            print("\n❌ Phone should contain 10 consecutive digits with no spaces or other characters.")
+        except Exception as e:
+            print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
+    return wrapper
+
+def date_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"\n❌ Date must be in the format DD.MM.YYYY\r\n")
+    return wrapper
+
+def notes_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+             print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
+    return wrapper
+
 def add_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
         return
     contact = args[0]
+    has_digit = any(char.isdigit() for char in contact)
+
+    if has_digit:
+        user_input = input("❗ The name contains at least one digit. Are you sure you want to add it? (yes/no): ").strip().lower()
+        if user_input != "yes":
+            print("❌ Contact not added.")
+            return
+        
     book.add_record(contact)
 
 
@@ -34,31 +70,44 @@ def find_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
         return
-    name = args[0]
-    book.find(name)
+    name_to_find = args[0].capitalize()
+
+    for contact in book.data.values():
+        if contact.name.value == name_to_find:
+            print(f"{contact}")
+            return
+
+    print(f"❌ Contact with the name '{name_to_find}' not found.")
 
 
 def delete_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
         return
-    name = args[0]
+    name = args[0].capitalize()
+    if name not in book.data:
+        print(f"\n❌ Contact with the name '{name}' not found.")
+        return
     book.delete(name)
 
 
 def display_contacts(args, book):
-    res = book.display_contacts()
-    print(res)
+    if not book.data:
+        print("❌ The contact book is empty.")
+        return
+    else:
+        res = book.display_contacts()
+        print(res)
 
 
 # Phones
+@contacts_error
 def add_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and phone number")
         return
     name, *phones = args
     book.add_phone(name, phones)
-
 
 def edit_phone(args, book):
     if len(args) < 3:
@@ -158,6 +207,7 @@ def delete_email(args, book):
 
 
 # Birthday
+
 def add_birthday(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and date of birth")
@@ -204,50 +254,69 @@ def next_birthdays(args, book):
 # | NOTES HANDLERS |
 # ==================
 def add_note(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter the notes\r\n")
+        return
     note_content = " ".join(args)
     res = notes.add_note(note_content)
     print(f"\n{res}\r\n")
 
-
+@notes_error
 def edit_note(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter both old number and new the notes. \r\n")
+        return
     position = args[0]
     content = " ".join(args[1:])
     res = notes.edit_note(int(position), content)
     print(f"\n{res}\r\n")
 
-
+@notes_error
 def delete_note(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter both number the notes. The position must be a number.\r\n")
+        return
+
     position = args[0]
     res = notes.delete_note(int(position))
     print(f"\n{res}\r\n")
 
-
+@notes_error
 def search_notes(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter every one word in the notes.\r\n")
+        return
     keyword = args[0]
     res = notes.search_notes(keyword)
     print(f"\nNotes that contain '{keyword}' keyword:")
     for note in res:
         print(note)
 
-
 def display_notes(args, notes):
     print("\nAll notes:")
     notes.display_notes()
 
-
+@notes_error
 def add_tags(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter number and the tags for notes\r\n")
+        return
     note_idx = int(args[0])
     tags = args[1:]
     res = notes.add_tags(note_idx, tags)
     print(f"\n{res}\r\n")
 
-
+@notes_error
 def search_notes_by_tag(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter number the notes and names the tags\r\n")
+        return
     search_tag = args[0]
     res = notes.search_notes_by_tag(search_tag)
-    print(f"\nNotes that contain tag '{search_tag}':")
+    print(f"\n🔍 Notes that contain tag '{search_tag}':")
     for note in res:
         print(note)
+
 
 
 def sort_notes_by_tag(args, notes):
