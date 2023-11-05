@@ -404,7 +404,7 @@ def main():
                 main_menu_exit = True
                 break
 
-            if command == "contacts":  # contacts menu
+            elif command == "contacts":  # contacts menu
                 print(msg.contacts_menu)
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not contacts_menu_back:
