@@ -1,4 +1,3 @@
-from analysis.examination import CommandAnalyzer
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
@@ -16,27 +15,35 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # | CONTACTS HANDLERS |
 # =====================
 def add_record(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     contact = args[0]
     book.add_record(contact)
-    print("Contact added")
 
 
 def edit_record(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide old and new names to edit")
+        return
     old_name, new_name = args
-    res = book.edit(old_name, new_name)
-    print(res)
+    book.edit(old_name, new_name)
 
 
 def find_record(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
-    res = book.find(name)
-    print(f"Contact: \n{res}")
+    book.find(name)
 
 
 def delete_record(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
     book.delete(name)
-    print("Contact deleted")
 
 
 def display_contacts(args, book):
@@ -46,102 +53,141 @@ def display_contacts(args, book):
 
 # Phones
 def add_phone(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and phone number")
+        return
     name, *phones = args
-    res = book.add_phone(name, phones)
-    print(res)
+    book.add_phone(name, phones)
 
 
 def edit_phone(args, book):
-    name, old_value, new_value, *params = args
-    res = book.edit_phone(name, old_value, new_value)
-    print(res)
+    if len(args) < 3:
+        print("\n❌ Please provide name, old and new phone numbers")
+        return
+    name, old_value, new_value = args
+    has_ten_symbols = len(new_value) == 10
+    is_digit = new_value.isdigit()
+    
+    if not (has_ten_symbols and is_digit):
+        print("\n❌ Field phone is incorrect")
+        return
+    book.edit_phone(name, old_value, new_value)
 
 
 def show_phone(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
-    res = book.show_phone(name)
-    print(res)
+    book.show_phone(name)
 
 
 def delete_phone(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and phone to delete")
+        return
     name, phone = args
-    res = book.delete_phone(name, phone)
-    print(res)
+    book.delete_phone(name, phone)
+   
 
 
 # Address
 def add_address(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and address")
+        return
     name, *address = args
-    res = book.add_address(name, address)
-    print(res)
+    book.add_address(name, address)
 
 
 def edit_address(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide old and new address to edit")
+        return
     name, *address = args
-    res = book.add_address(name, address)
-    print(res)
+    book.edit_address(name, address)
 
 
 def show_address(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
-    res = book.show_address(name)
-    print(res)
+    book.show_address(name)
 
 
 def delete_address(args, book):
+    if len(args) < 1:
+        print("\n❌ Please provide name")
+        return
     name = args[0]
-    res = book.delete_address(name)
-    print(res)
+    book.delete_address(name)
 
 
 # Email
 def add_email(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and email")
+        return
     name, *emails = args
-    res = book.add_email(name, emails)
-    print(res)
+    book.add_email(name, emails)
 
 
 def edit_email(args, book):
+    if len(args) < 3:
+        print("\n❌ Please provide name, old and new email address")
+        return
     name, old_email, new_email = args
-    res = book.edit_email(name, old_email, new_email)
-    print(res)
+    book.edit_email(name, old_email, new_email)
 
 
 def show_email(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
-    res = book.show_email(name)
-    print(res)
+    book.show_email(name)
 
 
 def delete_email(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and phone to delete")
+        return
     name, email = args
-    res = book.delete_email(name, email)
-    print(res)
+    book.delete_email(name, email)
 
 
 # Birthday
 def add_birthday(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and date of birth")
+        return
     contact_name, birthday = args
-    res = book.add_birthday(contact_name, birthday)
-    print(res)
+    book.add_birthday(contact_name, birthday)
 
 
 def edit_birthday(args, book):
+    if len(args) < 2:
+        print("\n❌ Please provide name and new date of birth")
+        return
     contact_name, new_birthday = args
-    res = book.edit_birthday(contact_name, new_birthday)
-    print(res)
+    book.edit_birthday(contact_name, new_birthday)
 
 
 def show_birthday(args, book):
+    if len(args) == 0:
+        print("\n❌ Please provide the name")
+        return
     name = args[0]
-    res = book.show_birthday(name)
-    print(res)
+    book.show_birthday(name)
 
 
 def delete_birthday(args, book):
+    if len(args) < 1:
+        print("\n❌ Please provide name")
+        return
     contact_name = args[0]
-    res = book.delete_birthday(contact_name)
-    print(res)
+    book.delete_birthday(contact_name)
 
 
 def next_birthdays(args, book):
@@ -209,6 +255,7 @@ def sort_notes_by_tag(args, notes):
     print(f"\nSorted notes by tags:")
     for note in res:
         print(note)
+
 
 CONTACTS_OPERATIONS = {
     "add": add_record,
@@ -291,7 +338,6 @@ def main():
             print(Fore.GREEN + msg.main_menu)  # set color to cli
             print(Style.RESET_ALL)  # reset colors
             time.sleep(1)  # wait 1000ms after printing menu
-
         user_input = input("Enter a command: ").strip().lower()
         command, *args = parse_input(user_input)
 
@@ -299,7 +345,7 @@ def main():
             print(msg.leave)
             main_menu_exit = True
 
-        if command == "contacts":  # contacts menu
+        elif command == "contacts":  # contacts menu
             print(msg.contacts_menu)
             time.sleep(0.6)  # wait 600ms after printing menu
             while not contacts_menu_back:
@@ -313,11 +359,7 @@ def main():
                     break
 
                 try:
-                    if command == "analyze":
-                        analyzer = CommandAnalyzer()
-                        analyzer.analyze("contact") 
-                    else:
-                        contacts_handler(command)(args, book)
+                    contacts_handler(command)(args, book)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
@@ -336,11 +378,7 @@ def main():
                     break
 
                 try:
-                    if command == "analyze":
-                        analyzer = CommandAnalyzer()
-                        analyzer.analyze("notes")
-                    else:
-                        notes_handler(command)(args, notes)
+                    notes_handler(command)(args, notes)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)

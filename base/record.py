@@ -22,8 +22,7 @@ class Record:
                 self.phones.append(next_phone)
             except ValueError as e:
                 return e
-
-        return "\n🟢 Phone added"
+        return ""
 
     def edit_name(self, new_name):
         self.name = Name(new_name)
@@ -61,7 +60,7 @@ class Record:
 
     def add_birthday(self, date):
         if self.birthday is not None:
-            raise ValueError("Field birthday has value")
+            self.birthday.value = date
 
         self.birthday = Birthday(date)
 
