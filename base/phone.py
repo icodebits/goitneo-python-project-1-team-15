@@ -14,4 +14,4 @@ class Phone(Field):
         if has_ten_symbols and is_digit:
             self.__value = value
         else:
-            raise ValueError("Field phone is incorrect")
+            raise ValueError("❌ Field phone is incorrect\n")
