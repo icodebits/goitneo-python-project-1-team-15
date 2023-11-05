@@ -423,6 +423,5 @@ def main():
     data["notes"] = notes
     save_data(data, "data.pkl")
 
-
 if __name__ == "__main__":
     main()
