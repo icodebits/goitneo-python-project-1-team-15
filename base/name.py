@@ -13,6 +13,6 @@ class Name(Field):
         has_numbers = any(char.isdigit() for char in value)
 
         if not is_string and is_empty and has_numbers:
-            raise ValueError("Field name is incorrect")
+            raise ValueError("Field name is incorrect\n")
 
         self.__value = value.lower()

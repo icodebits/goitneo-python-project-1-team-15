@@ -11,7 +11,6 @@ class AddressBook(UserDict):
         contact = Record(name)
         self.data[contact.name.value] = contact
         print("\n🟢 Contact added")
-            
 
     def edit(self, old_name, new_name):
         if old_name.lower() in self.data:
@@ -21,7 +20,6 @@ class AddressBook(UserDict):
         else:
             contact.edit_name(new_name)
             print("\n🟢 Contact updated")
-            
 
     def find(self, key):
         key = key.lower()
@@ -29,8 +27,7 @@ class AddressBook(UserDict):
         if not contact:
             print(f"\n❌ Contact {key} not found")
         else:
-            print(self.data.get(key))           
-    
+            print(self.data.get(key))
 
     def delete(self, key):
         if key in self.data:
@@ -38,7 +35,6 @@ class AddressBook(UserDict):
             print(f"\n🟢 Contact '{key}' deleted")
         else:
             print(f"\n❌ Contact '{key}' not found")
-            
 
     def display_contacts(self):
         contacts = "\n📱 All contacts:"
@@ -47,58 +43,43 @@ class AddressBook(UserDict):
         return contacts
 
     # Phone methods
-    # def add_phone(self, name, phones):
-    #     if name.lower() in self.data:
-    #         contact = self.data[name.lower()]
-    #         contact.add_phone(phones)
-    #         print("\n✅ Phone added")
-    #     else:
-    #         print(f"\n❌ Contact '{name}' not found")
-
     def add_phone(self, name, phones):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
-            
-            stripped_phones = ''.join(filter(str.isdigit, phones))
-
-            if len(stripped_phones) == 10:
-                contact.add_phone(phones)
-                print("\n✅ Phone added")
-            else:
-                print("\n❌ Phone should contain 10 consecutive digits.")
+            res = contact.add_phone(phones)
+            return res
         else:
             return f"\n❌ Contact '{name}' not found"
-
 
     def edit_phone(self, name, old_value, new_value):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
             if old_value not in [str(p) for p in contact.phones]:
-                print(f"\n❌ Phone number {old_value} not found")
+                print(f"❌ Phone number {old_value} not found\n")
             else:
                 contact.edit_phone(old_value, new_value)
-                print("\n📒 Contact updated")
+                print("📒 Contact updated\n")
         else:
-            print(f"\n❌ Contact {name} not found")
+            print(f"❌ Contact {name} not found\n")
 
     def show_phone(self, search_query):
         contact = self.find(search_query)
         if contact:
             phone_list = "; ".join(str(p) for p in contact.phones)
-            return f"\n✅ Contact phones: {phone_list}"
+            return f"✅ Contact phones: {phone_list}\n"
         else:
-            return f"\n❌ Contact '{search_query}' not found\n"
+            return f"❌ Contact '{search_query}' not found\n"
 
     def delete_phone(self, name, phone):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
             if phone not in [str(p) for p in contact.phones]:
-                print(f"\n❌ Phone number {phone} not found")
+                print(f"❌ Phone number {phone} not found\n")
             else:
                 contact.remove_phone(phone)
-                print(f"\n🟢 Contact phone deleted\n")
+                print(f"🟢 Contact phone deleted\n")
         else:
-            print(f"\n❌ Contact {name} not found\n")
+            print(f"❌ Contact {name} not found\n")
 
     # Address methods
     def add_address(self, name, address):
@@ -106,10 +87,9 @@ class AddressBook(UserDict):
             contact = self.data[name.lower()]
             address = " ".join(address).strip()
             contact.add_address(address)
-            print("\n🏠 Address added")
+            print("🏠 Address added\n")
         else:
-            print(f"\n❌ Contact '{name}' not found")
-        
+            print(f"❌ Contact '{name}' not found\n")
 
     def edit_address(self, name, new_address):
         if name.lower() in self.data:
@@ -117,24 +97,24 @@ class AddressBook(UserDict):
             if contact.address:
                 if new_address:
                     contact.address = " ".join(new_address).strip()
-                    print(f"\n🏠 Address updated for {name}")
+                    print(f"🏠 Address updated for {name}\n")
                 else:
-                    print("❌ The address is incorrect")
+                    print("❌ The address is incorrect\n")
             else:
-                print("❌ No address to edit")
+                print("❌ No address to edit\n")
         else:
-            print(f"\n❌ Contact '{name}' not found")
+            print(f"❌ Contact '{name}' not found\n")
 
     def show_address(self, name):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
             if contact:
                 if contact.address:
-                    print(f"\n🏠 Address for {name}: {contact.address}")
+                    print(f"🏠 Address for {name}: {contact.address}\n")
                 else:
-                    print(f"\n❌ Address not found for {name}")
+                    print(f"❌ Address not found for {name}\n")
         else:
-            print(f"\n❌ Contact '{name}' not found")
+            print(f"❌ Contact '{name}' not found\n")
 
     def delete_address(self, name):
         if name.lower() in self.data:
@@ -142,22 +122,20 @@ class AddressBook(UserDict):
             if contact:
                 if contact.address:
                     contact.address = None
-                    print(f"\n🏠 Address deleted for {name}\n")
+                    print(f"🏠 Address deleted for {name}\n")
                 else:
-                    print("❌ No address to delete")
+                    print("❌ No address to delete\n")
         else:
-            print(f"\n❌ Contact '{name}' not found")
-
+            print(f"❌ Contact '{name}' not found\n")
 
     # Email methods
     def add_email(self, name, email):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
             contact.add_email(email)
-            print("\n✅ Email added")
+            print("✅ Email added\n")
         else:
-            print(f"\n❌ Contact '{name}' not found")
-        
+            print(f"❌ Contact '{name}' not found\n")
 
     def edit_email(self, name, old_email, new_email):
         if name.lower() in self.data:
@@ -186,7 +164,6 @@ class AddressBook(UserDict):
                     print("❌ Email not found")
         else:
             print(f"\n❌ Contact '{name}' not found\n")
-        
 
     def delete_email(self, name, email_to_remove):
         if name.lower() in self.data:
@@ -201,7 +178,6 @@ class AddressBook(UserDict):
         else:
             print(f"\n❌ Contact {name} not found\n")
 
-
     # Birthday methods
     def add_birthday(self, contact_name, birthday):
         if contact_name.lower() in self.data:
@@ -210,7 +186,6 @@ class AddressBook(UserDict):
             print(f"\n🎂 Birthday added for {contact_name}")
         else:
             print(f"\n❌ Contact '{contact_name}' not found")
-
 
     def edit_birthday(self, contact_name, new_birthday):
         if contact_name.lower() in self.data:
@@ -226,7 +201,6 @@ class AddressBook(UserDict):
         else:
             print(f"\n❌ Contact {contact_name} not found")
 
-
     def show_birthday(self, name):
         if name.lower() in self.data:
             contact = self.data[name.lower()]
@@ -237,7 +211,6 @@ class AddressBook(UserDict):
                     print(f"\n❌ Birthday not found for {name}")
         else:
             print(f"\n❌ Contact '{name}' not found")
-
 
     def delete_birthday(self, contact_name):
         if contact_name.lower() in self.data:
@@ -250,7 +223,6 @@ class AddressBook(UserDict):
                     print("❌ No birthday to delete")
         else:
             print(f"\n❌ Contact '{contact_name}' not found")
-
 
     def next_birthdays(self, days=7):
         today = datetime.now().date()

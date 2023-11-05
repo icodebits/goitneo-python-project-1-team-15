@@ -20,9 +20,10 @@ class Record:
             try:
                 next_phone = Phone(phone)
                 self.phones.append(next_phone)
+
             except ValueError as e:
                 return e
-        return ""
+        return "✅ Phone added\n"
 
     def edit_name(self, new_name):
         self.name = Name(new_name)

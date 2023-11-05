@@ -1,9 +1,14 @@
-import datetime
 from analysis.examination import CommandAnalyzer
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
 from helpers.storage import load_data, save_data
+from helpers.error_handlers import (
+    handler_error,
+    contacts_error,
+    date_error,
+    notes_error,
+)
 
 import templates.messages as msg
 
@@ -16,42 +21,6 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
-
-
-def contacts_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except AttributeError as e:
-            print(
-                "\n❌ Phone should contain 10 consecutive digits with no spaces or other characters."
-            )
-        except Exception as e:
-            print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
-
-    return wrapper
-
-
-def date_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            print(f"\n❌ Date must be in the format DD.MM.YYYY\r\n")
-
-    return wrapper
-
-
-def notes_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
-
-    return wrapper
-
-
 def add_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -123,7 +92,8 @@ def add_phone(args, book):
         print("\n❌ Please provide name and phone number")
         return
     name, *phones = args
-    book.add_phone(name, phones)
+    res = book.add_phone(name, phones)
+    print(res)
 
 
 def edit_phone(args, book):
@@ -223,8 +193,6 @@ def delete_email(args, book):
 
 
 # Birthday
-
-
 def add_birthday(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and date of birth")
@@ -387,16 +355,6 @@ NOTES_OPERATIONS = {
     "search-tags": search_notes_by_tag,
     "sort-tags": sort_notes_by_tag,
 }
-
-
-def handler_error(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except KeyError:
-            return "Unsupported operation type"
-
-    return inner
 
 
 @handler_error
