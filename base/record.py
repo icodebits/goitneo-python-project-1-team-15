@@ -13,6 +13,10 @@ class Record:
         self.address = None
         self.emails = []
 
+    def edit_name(self, new_name):
+        self.name = Name(new_name)
+        return self
+
     def add_phone(self, phones):
         for phone in phones:
             if phone in self.phones:
@@ -20,14 +24,22 @@ class Record:
             try:
                 next_phone = Phone(phone)
                 self.phones.append(next_phone)
-
             except ValueError as error:
-                return error
-        return "✅ Phone added\n"
+                print(error)
 
-    def edit_name(self, new_name):
-        self.name = Name(new_name)
-        return self
+    def edit_phone(self, edit_number, new_number):
+        idx_num = None
+        for p in self.phones:
+            if p.value == edit_number:
+                idx_num = self.phones.index(p)
+                self.phones[idx_num] = Phone(new_number)
+                idx_num = True
+                break
+
+        return True if idx_num else False
+
+    def find_phone(self):
+        return "; ".join(str(phone) for phone in self.phones)
 
     def remove_phone(self, phone_number):
         idx_num = None
@@ -40,26 +52,6 @@ class Record:
 
         return True if idx_num else False
 
-    def edit_phone(self, edit_number, new_number):
-        for p in self.phones:
-            if p.value == edit_number:
-                idx_num = self.phones.index(p)
-
-                self.phones[idx_num] = Phone(new_number)
-
-        return self.phones
-
-    def find_phone(self, searh_number):
-        find_phone = ""
-        for phone in self.phones:
-            if str(phone) == str(searh_number):
-                find_phone = str(phone)
-
-        if find_phone:
-            return find_phone
-        else:
-            return f"Search phone {searh_number} does not exist in AddressBook"
-
     def add_birthday(self, date):
         if self.birthday is not None:
             self.birthday.value = date
@@ -67,6 +59,7 @@ class Record:
         self.birthday = Birthday(date)
 
     def add_address(self, address):
+        address = " ".join(address)
         if self.address is not None:
             self.address.value = address
         else:
@@ -91,7 +84,7 @@ class Record:
         name = self.name.value.title()
         phones = "; ".join(p.value for p in self.phones) if self.phones else "empty"
         birthday = self.birthday if self.birthday else "empty"
-        address = self.address if self.address else "empty"
+        address = self.address.title() if self.address else "empty"
         email = "; ".join(str(p) for p in self.emails) if self.emails else "empty"
 
         return f"""

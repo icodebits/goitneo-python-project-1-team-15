@@ -62,7 +62,7 @@ Commands:
     delete-email       <name> <email>
 
     add-birthday       <name> <birthday>
-    edit-birthday      <name> <old_birthday> <new_birthday>
+    edit-birthday      <name> <new_birthday>
     show-birthday      <name>
     delete-birthday    <name>
     next-birthdays     <days>
