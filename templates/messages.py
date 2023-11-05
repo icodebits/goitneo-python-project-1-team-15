@@ -60,8 +60,9 @@ Commands:
     delete-birthday    <name> <birthday>
     next-birthdays     <days>
 
+    analyze            # open analyze menu
 
-    back            # back to prev menu
+    back               # back to prev menu
 """
 
 notes_menu = """
@@ -78,6 +79,8 @@ Commands:
     add-tags     <note_number> <tag_names>
     search-tags  <note_keywords>
     sort-tags    # sort notes by tag
+
+    analyze      # open analyze menu
 
     back         # back to prev menu
 """

@@ -1,3 +1,4 @@
+from analysis.examination import CommandAnalyzer
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
@@ -15,94 +16,142 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # | CONTACTS HANDLERS |
 # =====================
 def add_record(args, book):
-    print("Added record")
+    contact = args[0]
+    book.add_record(contact)
+    print("Contact added")
+
+
+def edit_record(args, book):
+    old_name, new_name = args
+    res = book.edit(old_name, new_name)
+    print(res)
 
 
 def find_record(args, book):
-    print("Edited record")
+    name = args[0]
+    res = book.find(name)
+    print(f"Contact: \n{res}")
 
 
 def delete_record(args, book):
-    print("Deleted record")
+    name = args[0]
+    book.delete(name)
+    print("Contact deleted")
+
+
+def display_contacts(args, book):
+    res = book.display_contacts()
+    print(res)
+
+
+# Phones
+def add_phone(args, book):
+    name, *phones = args
+    res = book.add_phone(name, phones)
+    print(res)
+
+
+def edit_phone(args, book):
+    name, old_value, new_value, *params = args
+    res = book.edit_phone(name, old_value, new_value)
+    print(res)
+
+
+def show_phone(args, book):
+    name = args[0]
+    res = book.show_phone(name)
+    print(res)
+
+
+def delete_phone(args, book):
+    name, phone = args
+    res = book.delete_phone(name, phone)
+    print(res)
 
 
 # Address
 def add_address(args, book):
-    print("Added address")
+    name, *address = args
+    res = book.add_address(name, address)
+    print(res)
 
 
 def edit_address(args, book):
-    print("Edited address")
+    name, *address = args
+    res = book.add_address(name, address)
+    print(res)
 
 
 def show_address(args, book):
-    print("Showed address")
+    name = args[0]
+    res = book.show_address(name)
+    print(res)
 
 
 def delete_address(args, book):
-    print("Deleted address")
+    name = args[0]
+    res = book.delete_address(name)
+    print(res)
 
 
 # Email
 def add_email(args, book):
-    print("Added email")
+    name, *emails = args
+    res = book.add_email(name, emails)
+    print(res)
 
 
 def edit_email(args, book):
-    print("Edited email")
+    name, old_email, new_email = args
+    res = book.edit_email(name, old_email, new_email)
+    print(res)
 
 
 def show_email(args, book):
-    print("Showed email")
+    name = args[0]
+    res = book.show_email(name)
+    print(res)
 
 
 def delete_email(args, book):
-    print("Deleted email")
-
-
-# Contacts
-def add_contact(args, book):
-    name, *tags = args
-    book.add_contact(name, tags)
-
-
-def edit_contact(args, book):
-    name, field, old_value, new_value = args
-    book.edit_contact(name, field, old_value, new_value)
-
-
-def show_contact(args, book):
-    search_query = args[0].lower()
-    book.search_contact(search_query)
-
-
-def delete_contact(args, book):
-    name = args[0]
-    book.delete_contact(name)
-
-
-def display_contacts(args, book):
-    book.display_contacts()
+    name, email = args
+    res = book.delete_email(name, email)
+    print(res)
 
 
 # Birthday
 def add_birthday(args, book):
     contact_name, birthday = args
-    book.add_birthday(contact_name, birthday)
+    res = book.add_birthday(contact_name, birthday)
+    print(res)
 
 
 def edit_birthday(args, book):
     contact_name, new_birthday = args
-    book.edit_birthday(contact_name, new_birthday)
+    res = book.edit_birthday(contact_name, new_birthday)
+    print(res)
 
 
 def show_birthday(args, book):
-    book.show_birthdays(args)
+    name = args[0]
+    res = book.show_birthday(name)
+    print(res)
 
 
 def delete_birthday(args, book):
     contact_name = args[0]
-    book.remove_birthday(contact_name)
+    res = book.delete_birthday(contact_name)
+    print(res)
+
+
+def next_birthdays(args, book):
+    if len(args) == 0:
+        res = book.next_birthdays()
+    else:
+        days = args[0]
+        res = book.next_birthdays(int(days))
+
+    print(res)
 
 
 # ==================
@@ -161,31 +210,31 @@ def sort_notes_by_tag(args, notes):
     for note in res:
         print(note)
 
-
 CONTACTS_OPERATIONS = {
     "add": add_record,
+    "edit": edit_record,
     "find": find_record,
     "delete": delete_record,
     "show-all": display_contacts,
     # Phone
-    "add-phone": add_phone,  # See to add_phone method
+    "add-phone": add_phone,
     "edit-phone": edit_phone,
-    "show-phone": show_phone,  # ?
+    "show-phone": show_phone,
     "delete-phone": delete_phone,
     # Address
     "add-address": add_address,
     "edit-address": edit_address,
-    "show-address": show_address,  # ?
+    "show-address": show_address,
     "delete-address": delete_address,
     # Email
     "add-email": add_email,
     "edit-email": edit_email,
-    "show-email": show_email,  # ?
+    "show-email": show_email,
     "delete-email": delete_email,
     # Birthday
     "add-birthday": add_birthday,
     "edit-birthday": edit_birthday,
-    "show-birthday": show_birthday,  # ?
+    "show-birthday": show_birthday,
     "delete-birthday": delete_birthday,
     "next-birthdays": next_birthdays,
 }
@@ -250,7 +299,7 @@ def main():
             print(msg.leave)
             main_menu_exit = True
 
-        elif command == "contacts":  # contacts menu
+        if command == "contacts":  # contacts menu
             print(msg.contacts_menu)
             time.sleep(0.6)  # wait 600ms after printing menu
             while not contacts_menu_back:
@@ -264,7 +313,11 @@ def main():
                     break
 
                 try:
-                    contacts_handler(command)(args, book)
+                    if command == "analyze":
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("contact") 
+                    else:
+                        contacts_handler(command)(args, book)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
@@ -283,7 +336,11 @@ def main():
                     break
 
                 try:
-                    notes_handler(command)(args, notes)
+                    if command == "analyze":
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("notes")
+                    else:
+                        notes_handler(command)(args, notes)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
