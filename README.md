@@ -88,6 +88,10 @@ App has an interactive menu that helps you write correct commands:
 | `show-birthday <name>`                                | Show the birthday of the contact.                         |
 | `delete-birthday <name> <birthday>`                   | Delete the birthday of the contcat.                       |
 | `next-birthdays <days>`                               | Show contacts that have their birthday within next N days |
+
+| 🤔__Menu Analyze__                                  |   
+| `analyze`                               |  Helps users determine relevant commands based on their input within the Contact          |
+
 | 📋 __Menu Commands__                                  |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
@@ -103,6 +107,9 @@ App has an interactive menu that helps you write correct commands:
 | `add-tags <note_number> <tag_names>`                  | Add tags to a specific note.                              | 
 | `search-tags <note_keywords>`                         | Find the notes by the tag.                                | 
 | `sort-tags`                                           | Sort notes by a tag.                                      | 
+| 🤔__Menu Analyze__                                  |   
+| `analyze`                               |  Helps users determine relevant commands based on their input within the Notes            |
+
 | 📋 __Menu Commands__                                  |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
@@ -124,10 +131,32 @@ App has an interactive menu that helps you write correct commands:
     >>> All notes:
     >>> 1. Buy milk - Tags: shopping
     ```
+*   In analytics
+    ```
+     >>> analyze
+     >>> I met a wonderful guy today, and he gave me his phone number
+    Possible commands with the maximum number of matches:
+    add-phone <name> <phone>
+    edit-phone <name> <old_phone> <new_phone>
+    show-phone <name>
+    delete-phone <name> <phone>
+    Do you see the command you wanted to use?
+    If not, please copy your text and the desired command, and describe what you wanted or the command.
+    If you want to add information for a new user, start by using the command 'add'.
+    We will be waiting for your response via email at helpapplicationmc3@gmail.com
+     >>> add Igor
+
+    🟢 Contact added
+     >>> add-phone Igor 0948767780
+
+    ✅ Phone added
+     >>>  show-all  
+     ```
 ## Support and Contribution
 
 If you encounter any issues or have suggestions for improvements, please [open an issue](https://github.com/icodebits/project-pyteam15/issues).  
 Contributions are also welcome via [pull requests](https://github.com/icodebits/project-pyteam15/pulls).
+You can write an [email to the address](mailto:helpapplicationmc3@gmail.com) support issues.
 
 ## License
 
