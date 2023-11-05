@@ -430,8 +430,8 @@ def main():
 
                 try:
                     if command == "analyze":
-                         analyzer = CommandAnalyzer()
-                         analyzer.analyze("contact") 
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("contact") 
                     else:
                         contacts_handler(command)(args, book)
                 except TypeError:
@@ -453,10 +453,10 @@ def main():
 
                 try:
                     if command == "analyze":
-                         analyzer = CommandAnalyzer()
-                         analyzer.analyze("notes") 
+                        analyzer = CommandAnalyzer()
+                        analyzer.analyze("notes") 
                     else:
-                        contacts_handler(command)(args, book)
+                        notes_handler(command)(args, notes)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
