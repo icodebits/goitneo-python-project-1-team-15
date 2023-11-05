@@ -1,6 +1,6 @@
 # CLI Contact List and Notes App
 ## GoIT Neo Project 1 - Team 15
-    TerminalAcademy: Where teams become reality
+    CommandCraft: Where teams become reality
 
 ## Description
 
@@ -44,6 +44,7 @@ To use the CLI Contact List and Notes App, you'll need to follow these steps:
     ```bash
     cd project-pyteam15
     python3 -m pip install colorama
+    python3 -m pip install termcolor
     ```
 
 3. **Run the App:**
@@ -88,17 +89,15 @@ App has an interactive menu that helps you write correct commands:
 | `show-birthday <name>`                                | Show the birthday of the contact.                         |
 | `delete-birthday <name> <birthday>`                   | Delete the birthday of the contcat.                       |
 | `next-birthdays <days>`                               | Show contacts that have their birthday within next N days |
-
-| 🤔__Menu Analyze__                                  |   
-| `analyze`                               |  Helps users determine relevant commands based on their input within the Contact          |
-
+| 🤔 __Menu Analyze__                                   |                                                           |   
+| `analyze`                                             | Helps users determine relevant commands based on their input within the Contact   |
 | 📋 __Menu Commands__                                  |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
 ### Notes commands
 | Command                                               | Description                                               |
 | ---                                                   | ---                                                       |
-| 📝 __Notes Commands__                               |                                                           |
+| 📝 __Notes Commands__                                 |                                                           |
 | `add <note>`                                          | Create and save a new note.                               |
 | `edit <note_number> <new_text>`                       | Edit the content of a specific note.                      | 
 | `delete <note_number>`                                | Delete a note from your notes.                            | 
@@ -107,9 +106,8 @@ App has an interactive menu that helps you write correct commands:
 | `add-tags <note_number> <tag_names>`                  | Add tags to a specific note.                              | 
 | `search-tags <note_keywords>`                         | Find the notes by the tag.                                | 
 | `sort-tags`                                           | Sort notes by a tag.                                      | 
-| 🤔__Menu Analyze__                                  |   
-| `analyze`                               |  Helps users determine relevant commands based on their input within the Notes            |
-
+| 🤔 __Menu Analyze__                                   |                                                           |
+| `analyze`                                             | Helps users determine relevant commands based on their input within the Notes |
 | 📋 __Menu Commands__                                  |                                                           |
 | `back`                                                | Go back to previouse menu.                                |
 
@@ -155,8 +153,8 @@ App has an interactive menu that helps you write correct commands:
 ## Support and Contribution
 
 If you encounter any issues or have suggestions for improvements, please [open an issue](https://github.com/icodebits/project-pyteam15/issues).  
-Contributions are also welcome via [pull requests](https://github.com/icodebits/project-pyteam15/pulls).
-You can write an [email to the address](mailto:helpapplicationmc3@gmail.com) support issues.
+Contributions are also welcome via [pull requests](https://github.com/icodebits/project-pyteam15/pulls).  
+You can write an [email](mailto:helpapplicationmc3@gmail.com) to address support issues.
 
 ## License
 
@@ -164,7 +162,7 @@ This CLI Contact List and Notes App is open-source software licensed under the [
 
 ## Acknowledgements
 
-Special thanks to the TerminalAcademy Team for making this app possible.
+Special thanks to the CommandCraft Team for making this app possible.
 <br>
 <br>
 <br>
