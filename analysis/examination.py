@@ -2,21 +2,22 @@ import re
 import json
 import os
 
+
 class CommandAnalyzer:
     def __init__(self):
         self.commands = None
 
     def load_commands(self, context):
-        if context == 'contact':
-            file_path = os.path.join('analysis', 'resources', 'contact_commands.json')
-        elif context == 'notes':
-            file_path = os.path.join('analysis', 'resources', 'notes_commands.json')
+        if context == "contact":
+            file_path = os.path.join("analysis", "resources", "contact_commands.json")
+        elif context == "notes":
+            file_path = os.path.join("analysis", "resources", "notes_commands.json")
         else:
             print("Invalid context for analysis. Use 'contact' or 'notes'.")
             return
 
         if os.path.exists(file_path):
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 self.commands = json.load(file)
         else:
             print(f"File '{file_path}' does not exist in the specified directory.")
@@ -25,9 +26,11 @@ class CommandAnalyzer:
     def analyze(self, context):
         self.load_commands(context)
 
-        user_input = input("Enter a sentence (or 'back' to return to the selection menu): ")
+        user_input = input(
+            "Enter a sentence (or 'back' to return to the selection menu): "
+        )
 
-        if user_input.lower() == 'back':
+        if user_input.lower() == "back":
             return
 
         matches = {}
@@ -38,7 +41,9 @@ class CommandAnalyzer:
             keyword_matches = 0
 
             for keyword_part in keyword_parts:
-                if re.search(r'\b' + re.escape(keyword_part.lower()) + r'\b', user_input.lower()):
+                if re.search(
+                    r"\b" + re.escape(keyword_part.lower()) + r"\b", user_input.lower()
+                ):
                     keyword_matches += 1
 
             if keyword_matches > 0:
@@ -50,11 +55,14 @@ class CommandAnalyzer:
             for keyword, keyword_matches in matches.items():
                 if keyword_matches == max_matches:
                     print(self.commands[keyword])
-            print("Do you see the command you wanted to use?\n"
-                  "If not, please copy your text and the desired command, and describe what you wanted or the command.\n"
-                  "If you want to add information for a new user, start by using the command 'add'."
-                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com")
+            print(
+                "Do you see the command you wanted to use?\n"
+                "If not, please copy your text and the desired command, and describe what you wanted or the command.\n"
+                "We will be waiting for your response via email at helpapplicationmc3@gmail.com"
+            )
         else:
-            print("I can't find this command\n"
-                  "Please copy your text and the desired command, and describe what you wanted or the command.\n"
-                  "We will be waiting for your response via email at helpapplicationmc3@gmail.com")
+            print(
+                "I can't find this command\n"
+                "Please copy your text and the desired command, and describe what you wanted or the command.\n"
+                "We will be waiting for your response via email at helpapplicationmc3@gmail.com"
+            )

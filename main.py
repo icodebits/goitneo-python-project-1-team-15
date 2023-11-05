@@ -21,6 +21,29 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
+
+
+def contacts_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
+
+    return wrapper
+
+
+def notes_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
+
+    return wrapper
+
+
+@contacts_error
 def add_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -43,6 +66,7 @@ def add_record(args, book):
     book.add_record(contact)
 
 
+@contacts_error
 def edit_record(args, book):
     if len(args) < 2:
         print("\n❌ Please provide old and new names to edit")
@@ -51,6 +75,7 @@ def edit_record(args, book):
     book.edit(old_name, new_name)
 
 
+@contacts_error
 def find_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -76,6 +101,7 @@ def delete_record(args, book):
     book.delete(name)
 
 
+@contacts_error
 def display_contacts(args, book):
     if not book.data:
         print("❌ The contact book is empty.")
@@ -87,6 +113,7 @@ def display_contacts(args, book):
 
 # Phones
 @contacts_error
+@contacts_error
 def add_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and phone number")
@@ -96,18 +123,11 @@ def add_phone(args, book):
     print(res)
 
 
+@contacts_error
 def edit_phone(args, book):
-    if len(args) < 3:
-        print("\n❌ Please provide name, old and new phone numbers")
-        return
-    name, old_value, new_value = args
-    has_ten_symbols = len(new_value) == 10
-    is_digit = new_value.isdigit()
-
-    if not (has_ten_symbols and is_digit):
-        print("\n❌ Field phone is incorrect")
-        return
-    book.edit_phone(name, old_value, new_value)
+    name, old_value, new_value, *params = args
+    res = book.edit_phone(name, old_value, new_value)
+    print(res)
 
 
 def show_phone(args, book):
@@ -118,6 +138,7 @@ def show_phone(args, book):
     book.show_phone(name)
 
 
+@contacts_error
 def delete_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and phone to delete")
@@ -127,6 +148,7 @@ def delete_phone(args, book):
 
 
 # Address
+@contacts_error
 def add_address(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and address")
@@ -135,6 +157,7 @@ def add_address(args, book):
     book.add_address(name, address)
 
 
+@contacts_error
 def edit_address(args, book):
     if len(args) < 2:
         print("\n❌ Please provide old and new address to edit")
@@ -143,6 +166,7 @@ def edit_address(args, book):
     book.edit_address(name, address)
 
 
+@contacts_error
 def show_address(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -151,6 +175,7 @@ def show_address(args, book):
     book.show_address(name)
 
 
+@contacts_error
 def delete_address(args, book):
     if len(args) < 1:
         print("\n❌ Please provide name")
@@ -160,6 +185,7 @@ def delete_address(args, book):
 
 
 # Email
+@contacts_error
 def add_email(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and email")
@@ -168,6 +194,7 @@ def add_email(args, book):
     book.add_email(name, emails)
 
 
+@contacts_error
 def edit_email(args, book):
     if len(args) < 3:
         print("\n❌ Please provide name, old and new email address")
@@ -176,6 +203,7 @@ def edit_email(args, book):
     book.edit_email(name, old_email, new_email)
 
 
+@contacts_error
 def show_email(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -184,6 +212,7 @@ def show_email(args, book):
     book.show_email(name)
 
 
+@contacts_error
 def delete_email(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and phone to delete")
@@ -193,6 +222,7 @@ def delete_email(args, book):
 
 
 # Birthday
+@contacts_error
 def add_birthday(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and date of birth")
@@ -201,6 +231,7 @@ def add_birthday(args, book):
     book.add_birthday(contact_name, birthday)
 
 
+@contacts_error
 def edit_birthday(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and new date of birth")
@@ -209,6 +240,7 @@ def edit_birthday(args, book):
     book.edit_birthday(contact_name, new_birthday)
 
 
+@contacts_error
 def show_birthday(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
@@ -217,6 +249,7 @@ def show_birthday(args, book):
     book.show_birthday(name)
 
 
+@contacts_error
 def delete_birthday(args, book):
     if len(args) < 1:
         print("\n❌ Please provide name")
@@ -225,6 +258,7 @@ def delete_birthday(args, book):
     book.delete_birthday(contact_name)
 
 
+@contacts_error
 def next_birthdays(args, book):
     if len(args) == 0:
         res = book.next_birthdays()
@@ -238,7 +272,11 @@ def next_birthdays(args, book):
 # ==================
 # | NOTES HANDLERS |
 # ==================
+@notes_error
 def add_note(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter the notes\r\n")
+        return
     if len(args) < 1:
         print("\n❌ Enter the notes\r\n")
         return
@@ -247,8 +285,10 @@ def add_note(args, notes):
     print(f"\n{res}\r\n")
 
 
-@notes_error
 def edit_note(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter both old number and new the notes. \r\n")
+        return
     if len(args) < 1:
         print("\n❌ Enter both old number and new the notes. \r\n")
         return
@@ -270,7 +310,11 @@ def delete_note(args, notes):
 
 
 @notes_error
+@notes_error
 def search_notes(args, notes):
+    if len(args) < 1:
+        print("\n❌ Enter every one word in the notes.\r\n")
+        return
     if len(args) < 1:
         print("\n❌ Enter every one word in the notes.\r\n")
         return
@@ -291,6 +335,9 @@ def add_tags(args, notes):
     if len(args) < 1:
         print("\n❌ Enter number and the tags for notes\r\n")
         return
+    if len(args) < 1:
+        print("\n❌ Enter number and the tags for notes\r\n")
+        return
     note_idx = int(args[0])
     tags = args[1:]
     res = notes.add_tags(note_idx, tags)
@@ -304,6 +351,7 @@ def search_notes_by_tag(args, notes):
         return
     search_tag = args[0]
     res = notes.search_notes_by_tag(search_tag)
+    print(f"\n🔍 Notes that contain tag '{search_tag}':")
     print(f"\n🔍 Notes that contain tag '{search_tag}':")
     for note in res:
         print(note)
