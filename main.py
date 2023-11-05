@@ -1,4 +1,5 @@
 import datetime
+from analysis.examination import CommandAnalyzer
 from base.address_book import AddressBook
 from base.notes import Notes
 from helpers.cli_parser import parse_input
@@ -428,7 +429,11 @@ def main():
                     break
 
                 try:
-                    contacts_handler(command)(args, book)
+                    if command == "analyze":
+                         analyzer = CommandAnalyzer()
+                         analyzer.analyze("contact") 
+                    else:
+                        contacts_handler(command)(args, book)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
@@ -447,7 +452,11 @@ def main():
                     break
 
                 try:
-                    notes_handler(command)(args, notes)
+                    if command == "analyze":
+                         analyzer = CommandAnalyzer()
+                         analyzer.analyze("notes") 
+                    else:
+                        contacts_handler(command)(args, book)
                 except TypeError:
                     print(Fore.RED + msg.error)
                     print(Style.RESET_ALL)
