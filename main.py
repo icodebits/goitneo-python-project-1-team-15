@@ -365,7 +365,7 @@ NOTES_OPERATIONS = {
 }
 
 
-@handler_error
+# @handler_error
 def contacts_handler(operator):
     return CONTACTS_OPERATIONS[operator]
 
@@ -395,6 +395,7 @@ def main():
             print(Fore.GREEN + msg.main_menu)  # set color to cli
             print(Style.RESET_ALL)  # reset colors
             time.sleep(0.6)  # wait 600ms after printing menu
+
         try:
             user_input = input("Enter a command: ").strip().lower()
             command, *args = parse_input(user_input)
@@ -408,22 +409,21 @@ def main():
                 print(msg.contacts_menu)
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not contacts_menu_back:
-                    user_input = input("Enter a command: ").strip().lower()
-                    command, *args = parse_input(user_input)
-
-                    if command == "back":
-                        contacts_menu_back = True
-                        print(Fore.YELLOW + msg.back)  # set color to cli
-                        print(Style.RESET_ALL)  # reset colors
-                        break
-
                     try:
-                        if command == "analyze":
+                        user_input = input("Enter a command: ").strip().lower()
+                        command, *args = parse_input(user_input)
+
+                        if command == "back":
+                            contacts_menu_back = True
+                            print(Fore.YELLOW + msg.back)  # set color to cli
+                            print(Style.RESET_ALL)  # reset colors
+                            break
+                        elif command == "analyze":
                             analyzer = CommandAnalyzer()
                             analyzer.analyze("contact")
                         else:
                             contacts_handler(command)(args, book)
-                    except TypeError:
+                    except:
                         print(Fore.RED + msg.error)
                         print(Style.RESET_ALL)
 
@@ -431,22 +431,21 @@ def main():
                 print(msg.notes_menu)
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not notes_menu_back:
-                    user_input = input("Enter a command: ").strip()
-                    command, *args = parse_input(user_input)
-
-                    if command == "back":
-                        notes_menu_back = True
-                        print(Fore.YELLOW + msg.back)  # set color to cli
-                        print(Style.RESET_ALL)  # reset colors
-                        break
-
                     try:
-                        if command == "analyze":
+                        user_input = input("Enter a command: ").strip()
+                        command, *args = parse_input(user_input)
+
+                        if command == "back":
+                            notes_menu_back = True
+                            print(Fore.YELLOW + msg.back)  # set color to cli
+                            print(Style.RESET_ALL)  # reset colors
+                            break
+                        elif command == "analyze":
                             analyzer = CommandAnalyzer()
                             analyzer.analyze("notes")
                         else:
                             notes_handler(command)(args, notes)
-                    except TypeError:
+                    except:
                         print(Fore.RED + msg.error)
                         print(Style.RESET_ALL)
 
