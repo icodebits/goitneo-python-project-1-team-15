@@ -113,7 +113,6 @@ def display_contacts(args, book):
 
 # Phones
 @contacts_error
-@contacts_error
 def add_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and phone number")
@@ -277,9 +276,6 @@ def add_note(args, notes):
     if len(args) < 1:
         print("\n❌ Enter the notes\r\n")
         return
-    if len(args) < 1:
-        print("\n❌ Enter the notes\r\n")
-        return
     note_content = " ".join(args)
     res = notes.add_note(note_content)
     print(f"\n{res}\r\n")
@@ -289,16 +285,12 @@ def edit_note(args, notes):
     if len(args) < 1:
         print("\n❌ Enter both old number and new the notes. \r\n")
         return
-    if len(args) < 1:
-        print("\n❌ Enter both old number and new the notes. \r\n")
-        return
     position = args[0]
     content = " ".join(args[1:])
     res = notes.edit_note(int(position), content)
     print(f"\n{res}\r\n")
 
 
-@notes_error
 def delete_note(args, notes):
     if len(args) < 1:
         print("\n❌ Enter both number the notes. The position must be a number.\r\n")
@@ -310,11 +302,7 @@ def delete_note(args, notes):
 
 
 @notes_error
-@notes_error
 def search_notes(args, notes):
-    if len(args) < 1:
-        print("\n❌ Enter every one word in the notes.\r\n")
-        return
     if len(args) < 1:
         print("\n❌ Enter every one word in the notes.\r\n")
         return
@@ -330,11 +318,7 @@ def display_notes(args, notes):
     notes.display_notes()
 
 
-@notes_error
 def add_tags(args, notes):
-    if len(args) < 1:
-        print("\n❌ Enter number and the tags for notes\r\n")
-        return
     if len(args) < 1:
         print("\n❌ Enter number and the tags for notes\r\n")
         return
@@ -344,14 +328,12 @@ def add_tags(args, notes):
     print(f"\n{res}\r\n")
 
 
-@notes_error
 def search_notes_by_tag(args, notes):
     if len(args) < 1:
         print("\n❌ Enter number the notes and names the tags\r\n")
         return
     search_tag = args[0]
     res = notes.search_notes_by_tag(search_tag)
-    print(f"\n🔍 Notes that contain tag '{search_tag}':")
     print(f"\n🔍 Notes that contain tag '{search_tag}':")
     for note in res:
         print(note)
@@ -439,11 +421,12 @@ def main():
             user_input = input("Enter a command: ").strip().lower()
             command, *args = parse_input(user_input)
 
-            if command in ["close", "exit", ""]:  # exit from cli
+            if command in ["close", "exit"]:  # exit from cli
                 print(msg.leave)
                 main_menu_exit = True
+                break
 
-            elif command == "contacts":  # contacts menu
+            if command == "contacts":  # contacts menu
                 print(msg.contacts_menu)
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not contacts_menu_back:
@@ -488,6 +471,7 @@ def main():
                     except TypeError:
                         print(Fore.RED + msg.error)
                         print(Style.RESET_ALL)
+
             else:
                 print(Fore.RED + msg.error)
                 print(Style.RESET_ALL)
