@@ -8,67 +8,69 @@ from collections import UserDict, defaultdict
 
 class AddressBook(UserDict):
     def add_record(self, name):
-        contact = Record(name)
-        self.data[contact.name.value] = contact
-        print("\n🟢 Contact added")
+        try:
+            contact = Record(name)
+            self.data[contact.name.value] = contact
+            return "\n🟢 Contact added\n"
+        except ValueError as error:
+            return error
 
     def edit(self, old_name, new_name):
-        if old_name.lower() in self.data:
-            contact = self.data[old_name.lower()]
-        if not contact:
-            print(f"\n❌ Contact {old_name} not found")
+        if old_name in self.data.keys():
+            upd_contact = self.data[old_name].edit_name(new_name)
+            self.delete(old_name)
+            self.data[new_name] = upd_contact
+            return "\n🟢 Contact updated\n"
         else:
-            contact.edit_name(new_name)
-            print("\n🟢 Contact updated")
+            return f"\n❌ Contact {old_name} not found\n"
 
     def find(self, key):
-        key = key.lower()
-        contact = self.data.get(key)
-        if not contact:
-            print(f"\n❌ Contact {key} not found")
-        else:
-            print(self.data.get(key))
+        try:
+            contact = self.data[key]
+            return contact
+        except KeyError:
+            return f"\n❌ Contact {key} not found\n"
 
     def delete(self, key):
         if key in self.data:
             del self.data[key]
-            print(f"\n🟢 Contact '{key}' deleted")
+            return f"\n🟢 Contact '{key}' deleted"
         else:
-            print(f"\n❌ Contact '{key}' not found")
+            return f"\n❌ Contact '{key}' not found"
 
     def display_contacts(self):
         contacts = "\n📱 All contacts:"
         for contact in self.data.values():
-            contacts += f"\n{contact}"
+            contacts += f"\n{contact}\n"
         return contacts
 
     # Phone methods
     def add_phone(self, name, phones):
-        if name.lower() in self.data:
-            contact = self.data[name.lower()]
+        if name in self.data:
+            contact = self.data[name]
             res = contact.add_phone(phones)
             return res
         else:
             return f"\n❌ Contact '{name}' not found"
 
     def edit_phone(self, name, old_value, new_value):
-        if name.lower() in self.data:
-            contact = self.data[name.lower()]
+        if name in self.data:
+            contact = self.data[name]
             if old_value not in [str(p) for p in contact.phones]:
-                print(f"❌ Phone number {old_value} not found\n")
+                print(f"\n❌ Phone number {old_value} not found\n")
             else:
                 contact.edit_phone(old_value, new_value)
-                print("📒 Contact updated\n")
+                print("\n📒 Contact updated\n")
         else:
-            print(f"❌ Contact {name} not found\n")
+            print(f"\n❌ Contact {name} not found\n")
 
     def show_phone(self, search_query):
         contact = self.find(search_query)
         if contact:
             phone_list = "; ".join(str(p) for p in contact.phones)
-            return f"✅ Contact phones: {phone_list}\n"
+            return f"\n✅ Contact phones: {phone_list}\n"
         else:
-            return f"❌ Contact '{search_query}' not found\n"
+            return f"\n❌ Contact '{search_query}' not found\n"
 
     def delete_phone(self, name, phone):
         if name.lower() in self.data:

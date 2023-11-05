@@ -1,8 +1,8 @@
-from base.email import Email
 from base.name import Name
 from base.phone import Phone
-from base.birthday import Birthday
+from base.email import Email
 from base.address import Address
+from base.birthday import Birthday
 
 
 class Record:
@@ -21,12 +21,13 @@ class Record:
                 next_phone = Phone(phone)
                 self.phones.append(next_phone)
 
-            except ValueError as e:
-                return e
+            except ValueError as error:
+                return error
         return "✅ Phone added\n"
 
     def edit_name(self, new_name):
         self.name = Name(new_name)
+        return self
 
     def remove_phone(self, phone_number):
         idx_num = None
@@ -100,5 +101,4 @@ class Record:
             ● birthday: {birthday}
             ● address: {address}
             ● email: {email}
-
         """

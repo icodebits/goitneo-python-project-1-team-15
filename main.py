@@ -18,65 +18,44 @@ import time  # add timeouts for output
 # =====================
 # | CONTACTS HANDLERS |
 # =====================
-@contacts_error
 def add_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
-        return
-    contact = args[0]
-    has_digit = any(char.isdigit() for char in contact)
-
-    if has_digit:
-        user_input = (
-            input(
-                "❗ The name contains at least one digit. Are you sure you want to add it? (yes/no): "
-            )
-            .strip()
-            .lower()
-        )
-        if user_input != "yes":
-            print("❌ Contact not added.")
-            return
-
-    book.add_record(contact)
+    else:
+        contact = args[0]
+        res = book.add_record(contact)
+        print(res)
 
 
-@contacts_error
 def edit_record(args, book):
     if len(args) < 2:
         print("\n❌ Please provide old and new names to edit")
-        return
-    old_name, new_name = args
-    book.edit(old_name, new_name)
+    else:
+        old_name, new_name = args
+        res = book.edit(old_name, new_name)
+        print(res)
 
 
-@contacts_error
 def find_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
-        return
-    name_to_find = args[0].capitalize()
+    else:
+        name_to_find = args[0]
 
-    for contact in book.data.values():
-        if contact.name.value == name_to_find:
-            print(f"{contact}")
-            return
-
-    print(f"❌ Contact with the name '{name_to_find}' not found.")
+        res = book.find(name_to_find)
+        print(res)
 
 
 def delete_record(args, book):
     if len(args) == 0:
         print("\n❌ Please provide the name")
         return
-    name = args[0].capitalize()
-    if name not in book.data:
-        print(f"\n❌ Contact with the name '{name}' not found.")
-        return
-    book.delete(name)
+    else:
+        name = args[0]
+        res = book.delete(name)
+        print(res)
 
 
-@contacts_error
 def display_contacts(args, book):
     if not book.data:
         print("❌ The contact book is empty.")
@@ -109,7 +88,8 @@ def show_phone(args, book):
         print("\n❌ Please provide the name")
         return
     name = args[0]
-    book.show_phone(name)
+    res = book.show_phone(name)
+    print(res)
 
 
 @contacts_error
