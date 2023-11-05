@@ -57,7 +57,7 @@ Commands:
     add-birthday       <name> <birthday>
     edit-birthday      <name> <old_birthday> <new_birthday>
     show-birthday      <name>
-    delete-birthday    <name> 
+    delete-birthday    <name>
     next-birthdays     <days>
 
     analyze            # open analyze menu
@@ -88,3 +88,4 @@ Commands:
 back = "↵ Back selected"
 
 error = "🔴 Invalid command"
+empty_params = "🟡 Please select an option"

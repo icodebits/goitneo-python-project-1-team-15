@@ -17,15 +17,20 @@ just_fix_windows_console()  # execute for Windows OS compatibility
 # | CONTACTS HANDLERS |
 # =====================
 
+
 def contacts_error(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except AttributeError as e:
-            print("\n❌ Phone should contain 10 consecutive digits with no spaces or other characters.")
+            print(
+                "\n❌ Phone should contain 10 consecutive digits with no spaces or other characters."
+            )
         except Exception as e:
             print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
+
     return wrapper
+
 
 def date_error(func):
     def wrapper(*args, **kwargs):
@@ -33,15 +38,19 @@ def date_error(func):
             return func(*args, **kwargs)
         except Exception as e:
             print(f"\n❌ Date must be in the format DD.MM.YYYY\r\n")
+
     return wrapper
+
 
 def notes_error(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-             print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
+            print(f"\n❌ Notes with the title not found. Cannot use. Start again.\r\n")
+
     return wrapper
+
 
 def add_record(args, book):
     if len(args) == 0:
@@ -51,11 +60,17 @@ def add_record(args, book):
     has_digit = any(char.isdigit() for char in contact)
 
     if has_digit:
-        user_input = input("❗ The name contains at least one digit. Are you sure you want to add it? (yes/no): ").strip().lower()
+        user_input = (
+            input(
+                "❗ The name contains at least one digit. Are you sure you want to add it? (yes/no): "
+            )
+            .strip()
+            .lower()
+        )
         if user_input != "yes":
             print("❌ Contact not added.")
             return
-        
+
     book.add_record(contact)
 
 
@@ -110,6 +125,7 @@ def add_phone(args, book):
     name, *phones = args
     book.add_phone(name, phones)
 
+
 def edit_phone(args, book):
     if len(args) < 3:
         print("\n❌ Please provide name, old and new phone numbers")
@@ -117,7 +133,7 @@ def edit_phone(args, book):
     name, old_value, new_value = args
     has_ten_symbols = len(new_value) == 10
     is_digit = new_value.isdigit()
-    
+
     if not (has_ten_symbols and is_digit):
         print("\n❌ Field phone is incorrect")
         return
@@ -138,7 +154,6 @@ def delete_phone(args, book):
         return
     name, phone = args
     book.delete_phone(name, phone)
-   
 
 
 # Address
@@ -209,6 +224,7 @@ def delete_email(args, book):
 
 # Birthday
 
+
 def add_birthday(args, book):
     if len(args) < 2:
         print("\n❌ Please provide name and date of birth")
@@ -262,6 +278,7 @@ def add_note(args, notes):
     res = notes.add_note(note_content)
     print(f"\n{res}\r\n")
 
+
 @notes_error
 def edit_note(args, notes):
     if len(args) < 1:
@@ -272,6 +289,7 @@ def edit_note(args, notes):
     res = notes.edit_note(int(position), content)
     print(f"\n{res}\r\n")
 
+
 @notes_error
 def delete_note(args, notes):
     if len(args) < 1:
@@ -281,6 +299,7 @@ def delete_note(args, notes):
     position = args[0]
     res = notes.delete_note(int(position))
     print(f"\n{res}\r\n")
+
 
 @notes_error
 def search_notes(args, notes):
@@ -293,9 +312,11 @@ def search_notes(args, notes):
     for note in res:
         print(note)
 
+
 def display_notes(args, notes):
     print("\nAll notes:")
     notes.display_notes()
+
 
 @notes_error
 def add_tags(args, notes):
@@ -307,6 +328,7 @@ def add_tags(args, notes):
     res = notes.add_tags(note_idx, tags)
     print(f"\n{res}\r\n")
 
+
 @notes_error
 def search_notes_by_tag(args, notes):
     if len(args) < 1:
@@ -317,7 +339,6 @@ def search_notes_by_tag(args, notes):
     print(f"\n🔍 Notes that contain tag '{search_tag}':")
     for note in res:
         print(note)
-
 
 
 def sort_notes_by_tag(args, notes):
@@ -407,61 +428,65 @@ def main():
             notes_menu_back = contacts_menu_back = False
             print(Fore.GREEN + msg.main_menu)  # set color to cli
             print(Style.RESET_ALL)  # reset colors
-            time.sleep(1)  # wait 1000ms after printing menu
-        user_input = input("Enter a command: ").strip().lower()
-        command, *args = parse_input(user_input)
-
-        if command in ["close", "exit"]:  # exit from cli
-            print(msg.leave)
-            main_menu_exit = True
-
-        elif command == "contacts":  # contacts menu
-            print(msg.contacts_menu)
             time.sleep(0.6)  # wait 600ms after printing menu
-            while not contacts_menu_back:
-                user_input = input("Enter a command: ").strip().lower()
-                command, *args = parse_input(user_input)
+        try:
+            user_input = input("Enter a command: ").strip().lower()
+            command, *args = parse_input(user_input)
 
-                if command == "back":
-                    contacts_menu_back = True
-                    print(Fore.YELLOW + msg.back)  # set color to cli
-                    print(Style.RESET_ALL)  # reset colors
-                    break
+            if command in ["close", "exit", ""]:  # exit from cli
+                print(msg.leave)
+                main_menu_exit = True
 
-                try:
-                    if command == "analyze":
-                        analyzer = CommandAnalyzer()
-                        analyzer.analyze("contact") 
-                    else:
-                        contacts_handler(command)(args, book)
-                except TypeError:
-                    print(Fore.RED + msg.error)
-                    print(Style.RESET_ALL)
+            elif command == "contacts":  # contacts menu
+                print(msg.contacts_menu)
+                time.sleep(0.6)  # wait 600ms after printing menu
+                while not contacts_menu_back:
+                    user_input = input("Enter a command: ").strip().lower()
+                    command, *args = parse_input(user_input)
 
-        elif command == "notes":  # notes menu
-            print(msg.notes_menu)
-            time.sleep(0.6)  # wait 600ms after printing menu
-            while not notes_menu_back:
-                user_input = input("Enter a command: ").strip()
-                command, *args = parse_input(user_input)
+                    if command == "back":
+                        contacts_menu_back = True
+                        print(Fore.YELLOW + msg.back)  # set color to cli
+                        print(Style.RESET_ALL)  # reset colors
+                        break
 
-                if command == "back":
-                    notes_menu_back = True
-                    print(Fore.YELLOW + msg.back)  # set color to cli
-                    print(Style.RESET_ALL)  # reset colors
-                    break
+                    try:
+                        if command == "analyze":
+                            analyzer = CommandAnalyzer()
+                            analyzer.analyze("contact")
+                        else:
+                            contacts_handler(command)(args, book)
+                    except TypeError:
+                        print(Fore.RED + msg.error)
+                        print(Style.RESET_ALL)
 
-                try:
-                    if command == "analyze":
-                        analyzer = CommandAnalyzer()
-                        analyzer.analyze("notes") 
-                    else:
-                        notes_handler(command)(args, notes)
-                except TypeError:
-                    print(Fore.RED + msg.error)
-                    print(Style.RESET_ALL)
-        else:
-            print(Fore.RED + msg.error)
+            elif command == "notes":  # notes menu
+                print(msg.notes_menu)
+                time.sleep(0.6)  # wait 600ms after printing menu
+                while not notes_menu_back:
+                    user_input = input("Enter a command: ").strip()
+                    command, *args = parse_input(user_input)
+
+                    if command == "back":
+                        notes_menu_back = True
+                        print(Fore.YELLOW + msg.back)  # set color to cli
+                        print(Style.RESET_ALL)  # reset colors
+                        break
+
+                    try:
+                        if command == "analyze":
+                            analyzer = CommandAnalyzer()
+                            analyzer.analyze("notes")
+                        else:
+                            notes_handler(command)(args, notes)
+                    except TypeError:
+                        print(Fore.RED + msg.error)
+                        print(Style.RESET_ALL)
+            else:
+                print(Fore.RED + msg.error)
+                print(Style.RESET_ALL)
+        except:
+            print(Fore.YELLOW + msg.empty_params)
             print(Style.RESET_ALL)
 
     data["contacts"] = book
