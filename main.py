@@ -13,9 +13,6 @@ from helpers.error_handlers import (
 import templates.messages as msg
 
 import time  # add timeouts for output
-from colorama import just_fix_windows_console, Fore, Style  # add styles to cli output
-
-just_fix_windows_console()  # execute for Windows OS compatibility
 
 
 # =====================
@@ -392,12 +389,11 @@ def main():
     while not main_menu_exit:
         if notes_menu_back or contacts_menu_back:  # main menu
             notes_menu_back = contacts_menu_back = False
-            print(Fore.GREEN + msg.main_menu)  # set color to cli
-            print(Style.RESET_ALL)  # reset colors
+            print(msg.main_menu)
             time.sleep(0.6)  # wait 600ms after printing menu
 
         try:
-            user_input = input("Enter a command: ").strip().lower()
+            user_input = input(msg.command).strip().lower()
             command, *args = parse_input(user_input)
 
             if command in ["close", "exit"]:  # exit from cli
@@ -410,13 +406,12 @@ def main():
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not contacts_menu_back:
                     try:
-                        user_input = input("Enter a command: ").strip().lower()
+                        user_input = input(msg.command).strip().lower()
                         command, *args = parse_input(user_input)
 
                         if command == "back":
                             contacts_menu_back = True
-                            print(Fore.YELLOW + msg.back)  # set color to cli
-                            print(Style.RESET_ALL)  # reset colors
+                            print(msg.back)
                             break
                         elif command == "analyze":
                             analyzer = CommandAnalyzer()
@@ -424,21 +419,19 @@ def main():
                         else:
                             contacts_handler(command)(args, book)
                     except:
-                        print(Fore.RED + msg.error)
-                        print(Style.RESET_ALL)
+                        print(msg.error)
 
             elif command == "notes":  # notes menu
                 print(msg.notes_menu)
                 time.sleep(0.6)  # wait 600ms after printing menu
                 while not notes_menu_back:
                     try:
-                        user_input = input("Enter a command: ").strip()
+                        user_input = input(msg.command).strip()
                         command, *args = parse_input(user_input)
 
                         if command == "back":
                             notes_menu_back = True
-                            print(Fore.YELLOW + msg.back)  # set color to cli
-                            print(Style.RESET_ALL)  # reset colors
+                            print(msg.back)
                             break
                         elif command == "analyze":
                             analyzer = CommandAnalyzer()
@@ -446,15 +439,12 @@ def main():
                         else:
                             notes_handler(command)(args, notes)
                     except:
-                        print(Fore.RED + msg.error)
-                        print(Style.RESET_ALL)
+                        print(msg.error)
 
             else:
-                print(Fore.RED + msg.error)
-                print(Style.RESET_ALL)
+                print(msg.error)
         except:
-            print(Fore.YELLOW + msg.empty_params)
-            print(Style.RESET_ALL)
+            print(msg.empty_params)
 
     data["contacts"] = book
     data["notes"] = notes
