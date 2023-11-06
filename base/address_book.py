@@ -97,7 +97,7 @@ class AddressBook(UserDict):
 
     def show_address(self, name):
         contact = self.find(name)
-        if contact.address.value:
+        if contact.address:
             print(f"\n🏠 Address for {name.title()}: {contact.address.value.title()}\n")
         else:
             print(f"\n❌ Address not found for {name.title()}\n")
