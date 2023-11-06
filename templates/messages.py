@@ -1,3 +1,10 @@
+from colorama import init, just_fix_windows_console  # add styles to cli output
+from termcolor import colored
+
+init(autoreset=True)  # automatically reset colors in cli
+just_fix_windows_console()  # execute for Windows OS compatibility
+
+
 welcome = """
 =============================
 | Welcome to assistant bot: |
@@ -45,9 +52,9 @@ Commands:
     delete-phone       <name> <phone>
 
     add-address        <name> <address>
-    edit-address       <name> <old_address> <new_address>
+    edit-address       <name> <new_address>
     show-address       <name>
-    delete-address     <name> <address>
+    delete-address     <name>
 
     add-email          <name> <email>
     edit-email         <name> <old_email> <new_email>
@@ -55,10 +62,12 @@ Commands:
     delete-email       <name> <email>
 
     add-birthday       <name> <birthday>
-    edit-birthday      <name> <old_birthday> <new_birthday>
+    edit-birthday      <name> <new_birthday>
     show-birthday      <name>
-    delete-birthday    <name> <birthday>
+    delete-birthday    <name>
     next-birthdays     <days>
+
+    analyze            # open analyze menu
 
     back               # back to prev menu
 """
@@ -75,12 +84,15 @@ Commands:
     show         <note_keyword>
     show-all     # show all notes
     add-tags     <note_number> <tag_names>
-    search-tags  <note_keywords>
+    search-tags  <tag>
     sort-tags    # sort notes by tag
+
+    analyze      # open analyze menu
 
     back         # back to prev menu
 """
+command = colored("Enter a command: ", "magenta")
+back = colored("\n↵ Back selected\n", "yellow")
 
-back = "↵ Back selected"
-
-error = "🔴 Invalid command"
+error = colored("\n🔴 Invalid command\n", "red")
+empty_params = colored("\n🟡 Please select an option\n", "yellow")

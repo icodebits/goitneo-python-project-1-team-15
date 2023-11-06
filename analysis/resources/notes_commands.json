@@ -1,0 +1,10 @@
+{
+    "add generate singular develop create new construct form fresh novel pose creating another next establish unique produce make exceptional build creation": "add <note>",
+    "edit replace reshape shift fix alter amend switch modify difference editable adjust change reverse make transform": "edit <note_number> <new_text>",
+    "delete forgot remove take forget leave aside erase remember unlearn out eliminate cancel withdraw put forgetting uninstall terminate forgotten removal": "delete <note_number>",
+    "show everyone everybody everything every any they browse finding gain locate get pursuit finder hunt lookup looking discover browse explore pursue reach retrieval search out seeking identify searching searched quest sourcing for discovering seek figure look obtain": "show <note_keyword>",
+    "show all everyone everybody everything every any they browse finding gain locate get pursuit finder hunt lookup looking discover browse explore pursue reach retrieval search out seeking identify searching searched quest sourcing for discovering seek figure look obtain": "show-all # show all notes",
+    "add generate singular develop create new construct form fresh novel pose creating another next establish unique produce make exceptional build creation tags tag teg hangtag": "add-tags <note_number> <tag_names>",
+    "search tags tag teg hangtag see gain identify learned seek know figure hunt inquire out reach locate knowing searched for look obtain browse learn pursue explore hear find get finding discover searching": "search-tags <note_keywords>",
+    "sort tags tag teg hangtag segregate": "sort-tags # sort notes by tag"
+}
