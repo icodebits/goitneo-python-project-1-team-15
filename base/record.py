@@ -67,13 +67,9 @@ class Record:
         for email in emails:
             if email in self.emails:
                 continue
-            try:
-                next_email = Email(email)
-                self.emails.append(next_email)
-            except ValueError as e:
-                return e
 
-        return "✅ Email is added"
+            next_email = Email(email)
+            self.emails.append(next_email)
 
     def edit_email(self, old, new):
         self.emails = [new if str(i) == old else i for i in self.emails]

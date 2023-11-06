@@ -54,7 +54,7 @@ Commands:
     add-address        <name> <address>
     edit-address       <name> <old_address> <new_address>
     show-address       <name>
-    delete-address     <name> <address>
+    delete-address     <name>
 
     add-email          <name> <email>
     edit-email         <name> <old_email> <new_email>

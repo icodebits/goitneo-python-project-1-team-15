@@ -54,7 +54,6 @@ def delete_record(args, book):
 def display_contacts(args, book):
     if not book.data:
         print("❌ The contact book is empty.")
-        return
     else:
         book.display_contacts()
 

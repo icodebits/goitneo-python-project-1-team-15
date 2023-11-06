@@ -67,9 +67,8 @@ class AddressBook(UserDict):
 
     def show_phone(self, name):
         contact = self.find(name)
-        if contact:
-            phones_list = contact.find_phone()
-            print(f"\n✅ Contact phones: {phones_list}\n")
+        phones_list = contact.find_phone()
+        print(f"\n✅ Contact phones: {phones_list}\n")
 
     def delete_phone(self, name, phone):
         contact = self.find(name)
@@ -98,10 +97,10 @@ class AddressBook(UserDict):
 
     def show_address(self, name):
         contact = self.find(name)
-        if contact.address:
-            print(f"\n🏠 Address for {name}: {contact.address.title()}\n")
+        if contact.address.value:
+            print(f"\n🏠 Address for {name.title()}: {contact.address.value.title()}\n")
         else:
-            print(f"\n❌ Address not found for {name}\n")
+            print(f"\n❌ Address not found for {name.title()}\n")
 
     def delete_address(self, name):
         contact = self.find(name)
@@ -113,9 +112,12 @@ class AddressBook(UserDict):
 
     # Email methods
     def add_email(self, name, email):
-        contact = self.find(name)
-        contact.add_email(email)
-        print("\n✅ Email added\n")
+        try:
+            contact = self.find(name)
+            contact.add_email(email)
+            print("\n✅ Email added\n")
+        except ValueError as error:
+            print(error)
 
     def edit_email(self, name, old_email, new_email):
         contact = self.find(name)
