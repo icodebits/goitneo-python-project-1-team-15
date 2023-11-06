@@ -13,4 +13,4 @@ class Birthday(Field):
             parsed_date = datetime.strptime(value, expected_format)
             self.__value = parsed_date.strftime("%d.%m.%Y")
         except ValueError:
-            print("The date format is not 'DD.MM.YYYY'")
+            raise ValueError("The date format is not 'DD.MM.YYYY'")

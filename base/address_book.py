@@ -187,34 +187,52 @@ class AddressBook(UserDict):
     # Birthday methods
     def add_birthday(self, name, birthday):
         contact = self.find(name)
-        contact.add_birthday(birthday)
-        print(f"\n🎂 Birthday added for {name}\n")
+        if isinstance(contact, Record):
+            try:
+                contact.add_birthday(birthday)
+                print(f"\n🎂 Birthday added for {name.title()}\n")
+            except ValueError as error:
+                print(f"\n{error}\n")
+        else:
+            print(contact)
 
     def edit_birthday(self, name, new_birthday):
         contact = self.find(name)
-        if contact.birthday:
-            if new_birthday:
-                contact.birthday.value = new_birthday
-                print(f"\n🎂 Birthday updated for {name}\n")
+        if isinstance(contact, Record):
+            if contact.birthday:
+                if new_birthday:
+                    try:
+                        contact.edit_birthday(new_birthday)
+                        print(f"\n🎂 Birthday updated for {name.title()}\n")
+                    except ValueError as error:
+                        print(f"\n{error}\n")
+                else:
+                    print("\n❌ The birthday is incorrect\n")
             else:
-                print("\n❌ The birthday is incorrect\n")
+                print("\n❌ No birthday to edit\n")
         else:
-            print("\n❌ No birthday to edit\n")
+            print(contact)
 
     def show_birthday(self, name):
         contact = self.find(name)
-        if contact.birthday:
-            print(f"\n🎂 Birthday for {name}: {contact.birthday.value}\n")
+        if isinstance(contact, Record):
+            if contact.birthday:
+                print(f"\n🎂 {name.title()}'s birthday is: {contact.birthday.value}\n")
+            else:
+                print(f"\n❌ Birthday not found for {name.title()}\n")
         else:
-            print(f"\n❌ Birthday not found for {name}\n")
+            print(contact)
 
     def delete_birthday(self, name):
         contact = self.find(name)
-        if contact.birthday:
-            contact.birthday = None
-            print(f"\n🎂 Birthday removed for {name}")
+        if isinstance(contact, Record):
+            if contact.birthday:
+                contact.birthday = None
+                print(f"\n🎂 Birthday removed for {name.title()}\n")
+            else:
+                print("\n❌ No birthday to delete\n")
         else:
-            print("\n❌ No birthday to delete\n")
+            print(contact)
 
     def next_birthdays(self, days=7):
         upcoming_birthdays = defaultdict(list)

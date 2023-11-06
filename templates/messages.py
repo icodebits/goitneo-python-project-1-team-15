@@ -84,7 +84,7 @@ Commands:
     show         <note_keyword>
     show-all     # show all notes
     add-tags     <note_number> <tag_names>
-    search-tags  <note_keywords>
+    search-tags  <tag>
     sort-tags    # sort notes by tag
 
     analyze      # open analyze menu

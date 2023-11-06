@@ -70,9 +70,9 @@ class Record:
         return True if idx_num else False
 
     def add_birthday(self, date):
-        if self.birthday is not None:
-            self.birthday.value = date
-
+        self.birthday = Birthday(date)
+    
+    def edit_birthday(self, date):
         self.birthday = Birthday(date)
 
     def add_address(self, address):
