@@ -86,9 +86,9 @@ class AddressBook(UserDict):
 
     def edit_address(self, name, new_address):
         contact = self.find(name)
-        if contact.address:
+        if contact.address.value:
             if new_address:
-                contact.address = " ".join(new_address).strip()
+                contact.address.value = " ".join(new_address).strip()
                 print(f"\n🏠 Address updated for {name}\n")
             else:
                 print("\n❌ The address is incorrect\n")

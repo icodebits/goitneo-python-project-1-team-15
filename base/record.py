@@ -78,7 +78,7 @@ class Record:
         name = self.name.value.title()
         phones = "; ".join(p.value for p in self.phones) if self.phones else "empty"
         birthday = self.birthday if self.birthday else "empty"
-        address = self.address.title() if self.address else "empty"
+        address = self.address.value.title() if self.address else "empty"
         email = "; ".join(str(p) for p in self.emails) if self.emails else "empty"
 
         return f"""
