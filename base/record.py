@@ -21,11 +21,9 @@ class Record:
         for phone in phones:
             if phone in self.phones:
                 continue
-            try:
-                next_phone = Phone(phone)
-                self.phones.append(next_phone)
-            except ValueError as error:
-                print(error)
+
+            next_phone = Phone(phone)
+            self.phones.append(next_phone)
 
     def edit_phone(self, edit_number, new_number):
         idx_num = None

@@ -33,7 +33,7 @@ class AddressBook(UserDict):
             contact = self.data[name]
             return contact
         except KeyError:
-            print(f"\n❌ Contact {name} not found\n")
+            return f"\n❌ Contact {name} not found\n"
 
     def delete(self, key):
         if key in self.data:
@@ -50,9 +50,12 @@ class AddressBook(UserDict):
 
     # Phone methods
     def add_phone(self, name, phones):
-        contact = self.find(name)
-        contact.add_phone(phones)
-        print("\n✅ Phone added\n")
+        try:
+            contact = self.find(name)
+            contact.add_phone(phones)
+            print("\n✅ Phone added\n")
+        except ValueError as error:
+            print(error)
 
     def edit_phone(self, name, old_value, new_value):
         contact = self.find(name)
