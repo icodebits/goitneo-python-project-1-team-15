@@ -58,6 +58,7 @@ class CommandAnalyzer:
             print(
                 "Do you see the command you wanted to use?\n"
                 "If not, please copy your text and the desired command, and describe what you wanted or the command.\n"
+                "If you want to add information for a new user, start by using the command 'add'.\n"
                 "We will be waiting for your response via email at helpapplicationmc3@gmail.com"
             )
         else:

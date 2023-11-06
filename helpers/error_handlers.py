@@ -14,7 +14,7 @@ def contacts_error(func):
             return func(*args, **kwargs)
         except AttributeError as e:
             print(
-                "\n❌ Phone should contain 10 consecutive digits with no spaces or other characters."
+                "\n❌ User with the name not found or phone should contain 10 consecutive digits with no spaces or other characters."
             )
         except Exception as e:
             print(f"\n❌ User with the name not found. Cannot use. Start again.\r\n")
