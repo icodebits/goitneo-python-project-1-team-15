@@ -10,4 +10,4 @@ class Email(Field):
     def validated_email(self):
         pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
         if not re.match(pattern, self.value):
-            raise ValueError(print("Wrong email format"))
+            raise ValueError("\n❌ Wrong email format\n")
