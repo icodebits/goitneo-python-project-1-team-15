@@ -145,7 +145,7 @@ class AddressBook(UserDict):
             if str(em) == email_to_remove:
                 contact.emails.remove(em)
                 print(f"\n🟢 Email deleted\n")
-                break
+                return
 
         print(f"\n❌ Email '{email_to_remove}' not found\n")
 
