@@ -20,7 +20,7 @@ import time  # add timeouts for output
 # =====================
 def add_record(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide the name")
+        print("\n❌ Please provide the name\n")
     else:
         contact = args[0]
         book.add_record(contact)
@@ -28,7 +28,7 @@ def add_record(args, book):
 
 def edit_record(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide old and new names to edit")
+        print("\n❌ Please provide old and new names to edit\n")
     else:
         old_name, new_name = args
         book.edit(old_name, new_name)
@@ -36,7 +36,7 @@ def edit_record(args, book):
 
 def find_record(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide the name")
+        print("\n❌ Please provide the name\n")
     else:
         name_to_find = args[0]
         book.show(name_to_find)
@@ -44,7 +44,7 @@ def find_record(args, book):
 
 def delete_record(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide the name")
+        print("\n❌ Please provide the name\n")
     else:
         name = args[0]
         res = book.delete(name)
@@ -53,7 +53,7 @@ def delete_record(args, book):
 
 def display_contacts(args, book):
     if not book.data:
-        print("❌ The contact book is empty.")
+        print("\n❌ The contact book is empty.\n")
     else:
         book.display_contacts()
 
@@ -62,7 +62,7 @@ def display_contacts(args, book):
 @contacts_error
 def add_phone(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <phone>")
+        print("\n❌ Please provide [ARGS]: <name> <phone>\n")
     else:
         name, *phones = args
         book.add_phone(name, phones)
@@ -71,7 +71,7 @@ def add_phone(args, book):
 @contacts_error
 def edit_phone(args, book):
     if len(args) < 3:
-        print("\n❌ Please provide [ARGS]: <name> <old phone> <new phone>")
+        print("\n❌ Please provide [ARGS]: <name> <old phone> <new phone>\n")
     else:
         name, old_value, new_value = args
         book.edit_phone(name, old_value, new_value)
@@ -79,7 +79,7 @@ def edit_phone(args, book):
 
 def show_phone(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.show_phone(name)
@@ -88,7 +88,7 @@ def show_phone(args, book):
 @contacts_error
 def delete_phone(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <phone>")
+        print("\n❌ Please provide [ARGS]: <name> <phone>\n")
     else:
         name, phone = args
         book.delete_phone(name, phone)
@@ -98,7 +98,7 @@ def delete_phone(args, book):
 # @contacts_error
 def add_address(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <address>")
+        print("\n❌ Please provide [ARGS]: <name> <address>\n")
     else:
         name, *address = args
         book.add_address(name, address)
@@ -107,7 +107,7 @@ def add_address(args, book):
 # @contacts_error
 def edit_address(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <new address>")
+        print("\n❌ Please provide [ARGS]: <name> <new address>\n")
     else:
         name, *address = args
         book.edit_address(name, address)
@@ -116,7 +116,7 @@ def edit_address(args, book):
 # @contacts_error
 def show_address(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.show_address(name)
@@ -125,7 +125,7 @@ def show_address(args, book):
 # @contacts_error
 def delete_address(args, book):
     if len(args) < 1:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.delete_address(name)
@@ -135,7 +135,7 @@ def delete_address(args, book):
 # @contacts_error
 def add_email(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <email>")
+        print("\n❌ Please provide [ARGS]: <name> <email>\n")
     else:
         name, *emails = args
         book.add_email(name, emails)
@@ -144,7 +144,7 @@ def add_email(args, book):
 # @contacts_error
 def edit_email(args, book):
     if len(args) < 3:
-        print("\n❌ Please provide [ARGS]: <name> <old email> <new email>")
+        print("\n❌ Please provide [ARGS]: <name> <old email> <new email>\n")
     else:
         name, old_email, new_email = args
         book.edit_email(name, old_email, new_email)
@@ -153,7 +153,7 @@ def edit_email(args, book):
 # @contacts_error
 def show_email(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.show_email(name)
@@ -162,7 +162,7 @@ def show_email(args, book):
 # @contacts_error
 def delete_email(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <email>")
+        print("\n❌ Please provide [ARGS]: <name> <email>\n")
     else:
         name, email = args
         book.delete_email(name, email)
@@ -172,7 +172,7 @@ def delete_email(args, book):
 # @contacts_error
 def add_birthday(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <birthday>")
+        print("\n❌ Please provide [ARGS]: <name> <birthday>\n")
     else:
         name, birthday = args
         book.add_birthday(name, birthday)
@@ -181,7 +181,7 @@ def add_birthday(args, book):
 # @contacts_error
 def edit_birthday(args, book):
     if len(args) < 2:
-        print("\n❌ Please provide [ARGS]: <name> <new_birthday>")
+        print("\n❌ Please provide [ARGS]: <name> <new_birthday>\n")
     else:
         name, new_birthday = args
         book.edit_birthday(name, new_birthday)
@@ -190,7 +190,7 @@ def edit_birthday(args, book):
 # @contacts_error
 def show_birthday(args, book):
     if len(args) == 0:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.show_birthday(name)
@@ -199,7 +199,7 @@ def show_birthday(args, book):
 # @contacts_error
 def delete_birthday(args, book):
     if len(args) < 1:
-        print("\n❌ Please provide [ARGS]: <name>")
+        print("\n❌ Please provide [ARGS]: <name>\n")
     else:
         name = args[0]
         book.delete_birthday(name)

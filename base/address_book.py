@@ -33,7 +33,7 @@ class AddressBook(UserDict):
             contact = self.data[name]
             return contact
         except KeyError:
-            return f"\n❌ Contact {name} not found\n"
+            return f"\n❌ Contact {name.title()} not found\n"
 
     def delete(self, key):
         if key in self.data:
@@ -81,34 +81,46 @@ class AddressBook(UserDict):
     # Address methods
     def add_address(self, name, address):
         contact = self.find(name)
-        contact.add_address(address)
-        print("\n🏠 Address added\n")
+        if isinstance(contact, Record):
+            contact.add_address(address)
+            print("\n🏠 Address added\n")
+        else:
+            print(contact)
 
     def edit_address(self, name, new_address):
         contact = self.find(name)
-        if contact.address.value:
-            if new_address:
-                contact.address.value = " ".join(new_address).strip()
-                print(f"\n🏠 Address updated for {name}\n")
+        if isinstance(contact, Record):
+            if contact.address:
+                if new_address:
+                    contact.address.value = " ".join(new_address).strip()
+                    print(f"\n🏠 Address updated for {name.title()}\n")
+                else:
+                    print("\n❌ The address is incorrect\n")
             else:
-                print("\n❌ The address is incorrect\n")
+                print("\n❌ No address to edit\n")
         else:
-            print("\n❌ No address to edit\n")
+            print(contact)
 
     def show_address(self, name):
         contact = self.find(name)
-        if contact.address:
-            print(f"\n🏠 Address for {name.title()}: {contact.address.value.title()}\n")
+        if isinstance(contact, Record):
+            if contact.address:
+                print(f"\n🏠 Address for {name.title()}: {contact.address.value.title()}\n")
+            else:
+                print(f"\n❌ Address not found for {name.title()}\n")
         else:
-            print(f"\n❌ Address not found for {name.title()}\n")
+            print(contact)
 
     def delete_address(self, name):
         contact = self.find(name)
-        if contact.address:
-            contact.address = None
-            print(f"\n🏠 Address deleted for {name}\n")
+        if isinstance(contact, Record):
+            if contact.address:
+                contact.address = None
+                print(f"\n🏠 Address deleted for {name.title()}\n")
+            else:
+                print("\n❌ No address to delete\n")
         else:
-            print("\n❌ No address to delete\n")
+            print(contact)
 
     # Email methods
     def add_email(self, name, email):

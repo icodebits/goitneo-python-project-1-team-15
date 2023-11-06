@@ -52,7 +52,7 @@ Commands:
     delete-phone       <name> <phone>
 
     add-address        <name> <address>
-    edit-address       <name> <old_address> <new_address>
+    edit-address       <name> <new_address>
     show-address       <name>
     delete-address     <name>
 
