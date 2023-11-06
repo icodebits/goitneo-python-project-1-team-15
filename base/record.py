@@ -18,19 +18,38 @@ class Record:
         return self
 
     def add_phone(self, phones):
-        for phone in phones:
-            if phone in self.phones:
-                continue
+        found = {}
+        for ph in phones:
+            found[str(ph)] = False
+            for p in self.phones:
+                if str(p) == str(ph):
+                    found[str(ph)] = True
 
-            next_phone = Phone(phone)
-            self.phones.append(next_phone)
+        for key, value in found.items():
+            if value is False:
+                try:
+                    next_phone = Phone(key)
+                    self.phones.append(next_phone)
+                    print(f"\n✅ Phone {key} added\n")
+                except ValueError as error:
+                    return error
+            else:
+                print(f"\n❌ Number {key} is already in the list\n")
+        
+        return True
 
     def edit_phone(self, edit_number, new_number):
         idx_num = None
+
+        try:
+            new_phone = Phone(new_number)
+        except ValueError as error:
+            return error
+        
         for p in self.phones:
             if p.value == edit_number:
                 idx_num = self.phones.index(p)
-                self.phones[idx_num] = Phone(new_number)
+                self.phones[idx_num] = new_phone
                 idx_num = True
                 break
 

@@ -50,33 +50,45 @@ class AddressBook(UserDict):
 
     # Phone methods
     def add_phone(self, name, phones):
-        try:
-            contact = self.find(name)
-            contact.add_phone(phones)
-            print("\n✅ Phone added\n")
-        except ValueError as error:
-            print(error)
+        contact = self.find(name)
+        if isinstance(contact, Record):
+            res = contact.add_phone(phones)
+            if res is not True:
+                print(f"\n{res}\n")
+        else:
+            print(contact)
 
     def edit_phone(self, name, old_value, new_value):
         contact = self.find(name)
-        is_edited = contact.edit_phone(old_value, new_value)
-        if is_edited:
-            print("\n📒 Contact updated\n")
+        if isinstance(contact, Record):
+            is_edited = contact.edit_phone(old_value, new_value)
+            if is_edited == True:
+                print("\n📒 Contact updated\n")
+            elif is_edited == False:
+                print(f"\n❌ Phone number {old_value} not found\n")
+            else:
+                print(is_edited)
         else:
-            print(f"\n❌ Phone number {old_value} not found\n")
+            print(contact)
 
     def show_phone(self, name):
         contact = self.find(name)
-        phones_list = contact.find_phone()
-        print(f"\n✅ Contact phones: {phones_list}\n")
+        if isinstance(contact, Record):
+            phones_list = contact.find_phone()
+            print(f"\n✅ Contact phones: {phones_list}\n")
+        else:
+            print(contact)
 
     def delete_phone(self, name, phone):
         contact = self.find(name)
-        is_deleted = contact.remove_phone(phone)
-        if is_deleted:
-            print(f"\n🟢 Phone number deleted\n")
+        if isinstance(contact, Record):
+            is_deleted = contact.remove_phone(phone)
+            if is_deleted:
+                print(f"\n🟢 Phone number deleted\n")
+            else:
+                print(f"\n❌ Phone number {phone} not found\n")
         else:
-            print(f"\n❌ Phone number {phone} not found\n")
+            print(contact)
 
     # Address methods
     def add_address(self, name, address):

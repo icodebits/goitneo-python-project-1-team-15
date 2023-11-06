@@ -59,7 +59,7 @@ def display_contacts(args, book):
 
 
 # Phones
-@contacts_error
+#@contacts_error
 def add_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide [ARGS]: <name> <phone>\n")
@@ -68,7 +68,7 @@ def add_phone(args, book):
         book.add_phone(name, phones)
 
 
-@contacts_error
+#@contacts_error
 def edit_phone(args, book):
     if len(args) < 3:
         print("\n❌ Please provide [ARGS]: <name> <old phone> <new phone>\n")
@@ -85,7 +85,7 @@ def show_phone(args, book):
         book.show_phone(name)
 
 
-@contacts_error
+#@contacts_error
 def delete_phone(args, book):
     if len(args) < 2:
         print("\n❌ Please provide [ARGS]: <name> <phone>\n")
