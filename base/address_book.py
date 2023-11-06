@@ -124,42 +124,53 @@ class AddressBook(UserDict):
 
     # Email methods
     def add_email(self, name, email):
-        try:
-            contact = self.find(name)
-            contact.add_email(email)
-            print("\n✅ Email added\n")
-        except ValueError as error:
-            print(error)
+        contact = self.find(name)
+        if isinstance(contact, Record):
+            try:
+                contact.add_email(email)
+                print("\n✅ Email added\n")
+            except ValueError as error:
+                print(error)
+        else:
+            print(contact)
 
     def edit_email(self, name, old_email, new_email):
         contact = self.find(name)
-        if old_email in [str(i) for i in contact.emails]:
-            pattern = re.compile(r"[A-Za-z]{1}[\w\.]+@[A-Za-z]+\.[A-Za-z]{2,}")
-            if re.match(pattern, new_email):
-                contact.edit_email(old_email, new_email)
-                print("\n✅ Email updated\n")
+        if isinstance(contact, Record):
+            if old_email in [str(i) for i in contact.emails]:
+                try:
+                    contact.edit_email(old_email, new_email)
+                    print("\n✅ Email updated\n")
+                except ValueError as error:
+                    print(error)
             else:
-                print("\n❌ Wrong email format\n")
+                print(f"\n❌ Email {old_email} not found\n")
         else:
-            print(f"\n❌ Email {old_email} not found\n")
+            print(contact)
 
     def show_email(self, name):
         contact = self.find(name)
-        if contact.emails:
-            email_list = "; ".join(str(p) for p in contact.emails)
-            print(f"\n✅ Contact emails: {email_list}\n")
+        if isinstance(contact, Record):
+            if contact.emails:
+                email_list = "; ".join(str(p) for p in contact.emails)
+                print(f"\n✅ Contact emails: {email_list}\n")
+            else:
+                print("\n❌ Email not found\n")
         else:
-            print("\n❌ Email not found\n")
+            print(contact)
 
     def delete_email(self, name, email_to_remove):
         contact = self.find(name)
-        for em in contact.emails:
-            if str(em) == email_to_remove:
-                contact.emails.remove(em)
-                print(f"\n🟢 Email deleted\n")
-                return
+        if isinstance(contact, Record):
+            for em in contact.emails:
+                if str(em) == email_to_remove:
+                    contact.emails.remove(em)
+                    print(f"\n🟢 Email deleted\n")
+                    return
 
-        print(f"\n❌ Email '{email_to_remove}' not found\n")
+            print(f"\n❌ Email '{email_to_remove}' not found\n")
+        else:
+            print(contact)
 
     # Birthday methods
     def add_birthday(self, name, birthday):

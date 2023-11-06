@@ -72,7 +72,9 @@ class Record:
             self.emails.append(next_email)
 
     def edit_email(self, old, new):
-        self.emails = [new if str(i) == old else i for i in self.emails]
+        new_email = Email(new)
+        old_email = Email(old)
+        self.emails = [new_email.value if str(i) == old_email.value else i for i in self.emails]
 
     def __str__(self):
         name = self.name.value.title()
